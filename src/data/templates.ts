@@ -2,82 +2,73 @@ import { Template } from "@/types/chat";
 
 export const templates: Template[] = [
   {
-    id: "landlord",
-    name: "Landlord Assistant",
-    description: "Specialized support for property owners and landlords",
-    systemPrompt: "You are a helpful assistant for landlords, providing guidance on property management, maintenance, and tenant relations.",
-    exampleMessages: [
-      { role: "user", content: "I need to upgrade the heating system in my rental property." },
-      { role: "assistant", content: "Great to hear that! Upgrading to a heat pump can significantly reduce energy costs and improve tenant comfort. We offer government grants to help with the cost. Would you like more information on the available options?" }
-    ]
-  },
-  {
-    id: "homeowner",
-    name: "Homeowner Support",
-    description: "Expert assistance for home maintenance and improvements",
-    systemPrompt: "You are a knowledgeable assistant for homeowners, offering advice on home maintenance, improvements, and energy efficiency.",
-    exampleMessages: [
-      { role: "user", content: "I'm interested in energy-efficient plumbing solutions for my home." },
-      { role: "assistant", content: "That's a fantastic choice! Modern plumbing solutions can save you water and money. We offer options like low-flow fixtures and smart water systems. Would you like to know more about our services?" }
-    ]
-  },
-  {
-    id: "tenant",
-    name: "Tenant Support",
-    description: "Assistance for tenants with maintenance and property issues",
-    systemPrompt: "You are a helpful assistant for tenants, providing support for maintenance requests and property-related concerns.",
-    exampleMessages: [
-      { role: "user", content: "I need to report an electrical issue in my apartment." },
-      { role: "assistant", content: "I'm sorry to hear about the issue. We take tenant safety seriously. Could you please provide more details about the problem, such as the location and any visible damage?" }
-    ]
-  },
-  {
-    id: "customer-service",
-    name: "Customer Service",
-    description: "General customer support and inquiries",
-    systemPrompt: "You are a friendly customer service representative, helping users with general inquiries and support needs.",
+    id: "general",
+    name: "General Assistant",
+    description: "A helpful AI assistant for general questions and conversations.",
+    systemPrompt: "You are a helpful AI assistant.",
     exampleMessages: []
   },
   {
-    id: "maintenance",
-    name: "Maintenance Request",
-    description: "Submit and track maintenance requests",
-    systemPrompt: "You are a maintenance coordinator, helping to process and track maintenance requests efficiently.",
+    id: "writing",
+    name: "Writing Assistant",
+    description: "Helps with writing, editing, and improving your text.",
+    systemPrompt: "You are a writing assistant focused on helping users improve their writing.",
     exampleMessages: []
   },
   {
-    id: "billing",
-    name: "Billing Support",
-    description: "Help with billing inquiries and payments",
-    systemPrompt: "You are a billing specialist, assisting with payment-related questions and issues.",
+    id: "coding",
+    name: "Code Assistant",
+    description: "Helps with programming and technical questions.",
+    systemPrompt: "You are a coding assistant with expertise in programming.",
     exampleMessages: []
   },
   {
-    id: "emergency",
-    name: "Emergency Support",
-    description: "24/7 emergency assistance",
-    systemPrompt: "You are an emergency support specialist, helping users with urgent issues that require immediate attention.",
+    id: "creative",
+    name: "Creative Writing",
+    description: "Assists with creative writing and storytelling.",
+    systemPrompt: "You are a creative writing assistant helping users craft stories.",
     exampleMessages: []
   },
   {
-    id: "scheduling",
-    name: "Appointment Scheduling",
-    description: "Schedule inspections and maintenance visits",
-    systemPrompt: "You are a scheduling assistant, helping to coordinate appointments and maintenance visits.",
+    id: "academic",
+    name: "Academic Writing",
+    description: "Helps with academic papers and research.",
+    systemPrompt: "You are an academic writing assistant helping with research papers.",
     exampleMessages: []
   },
   {
-    id: "legal",
-    name: "Legal Information",
-    description: "Basic legal information and guidance",
-    systemPrompt: "You are a legal information assistant, providing general guidance on property-related legal matters.",
+    id: "business",
+    name: "Business Writing",
+    description: "Assists with business communications and documents.",
+    systemPrompt: "You are a business writing assistant helping with professional communications.",
     exampleMessages: []
   },
   {
-    id: "feedback",
-    name: "Feedback & Suggestions",
-    description: "Submit feedback and improvement suggestions",
-    systemPrompt: "You are a feedback coordinator, collecting and responding to user feedback and suggestions.",
+    id: "translator",
+    name: "Language Translator",
+    description: "Helps translate between different languages.",
+    systemPrompt: "You are a language translation assistant.",
+    exampleMessages: []
+  },
+  {
+    id: "teacher",
+    name: "Teaching Assistant",
+    description: "Helps explain complex topics in simple terms.",
+    systemPrompt: "You are a teaching assistant helping users understand complex topics.",
+    exampleMessages: []
+  },
+  {
+    id: "math",
+    name: "Math Tutor",
+    description: "Assists with mathematical problems and concepts.",
+    systemPrompt: "You are a math tutor helping users solve problems.",
+    exampleMessages: []
+  },
+  {
+    id: "brainstorm",
+    name: "Brainstorming Partner",
+    description: "Helps generate ideas and creative solutions.",
+    systemPrompt: "You are a brainstorming assistant helping users generate ideas.",
     exampleMessages: []
   }
 ];

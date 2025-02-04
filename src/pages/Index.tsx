@@ -14,12 +14,7 @@ const Index = () => {
 
   const handleTemplateSelect = (template: Template) => {
     setSelectedTemplate(template);
-    setMessages([
-      {
-        role: "assistant",
-        content: `Welcome to ${template.name}! How can I assist you today?`
-      }
-    ]);
+    setMessages([]);
   };
 
   const handleSendMessage = async (content: string) => {
@@ -47,10 +42,10 @@ const Index = () => {
     return (
       <div className="chat-container">
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold mb-2">Property Management Assistant</h1>
-          <p className="text-muted-foreground">Select a chat template to get started with your inquiry</p>
+          <h1 className="text-4xl font-bold mb-2">Choose a Template</h1>
+          <p className="text-muted-foreground">Select a chat template to get started</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {templates.map((template) => (
             <TemplateCard
               key={template.id}
