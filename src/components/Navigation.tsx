@@ -21,14 +21,14 @@ export const Navigation = () => {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
+                  <a href="/" className={navigationMenuTriggerStyle()}>
                     Home
-                  </NavigationMenuLink>
+                  </a>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/templates">
+                  <a href="/templates" className={navigationMenuTriggerStyle()}>
                     Templates
-                  </NavigationMenuLink>
+                  </a>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
