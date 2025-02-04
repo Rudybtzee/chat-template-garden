@@ -39,7 +39,7 @@
 }
 
 .chat-container {
-  @apply max-w-6xl mx-auto p-4 sm:p-6 h-[calc(100vh-2rem)];
+  @apply max-w-6xl mx-auto p-4 sm:p-6 min-h-[calc(100vh-8rem)];
 }
 
 .message-enter {
