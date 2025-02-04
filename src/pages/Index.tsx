@@ -6,11 +6,14 @@ import { ChatMessage } from "@/components/ChatMessage";
 import { ChatInput } from "@/components/ChatInput";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { processMessage } from "@/services/ai";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleTemplateSelect = (template: Template) => {
     setSelectedTemplate(template);
@@ -18,19 +21,36 @@ const Index = () => {
   };
 
   const handleSendMessage = async (content: string) => {
+    if (!selectedTemplate) return;
+
     const userMessage: Message = { role: "user", content };
     setMessages(prev => [...prev, userMessage]);
     setIsLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      const response = await processMessage(
+        content,
+        selectedTemplate.systemPrompt,
+        messages,
+        process.env.GEMINI_API_KEY || ''
+      );
+
       const botMessage: Message = {
         role: "assistant",
-        content: "This is a simulated response. In a real implementation, this would be connected to an AI API."
+        content: response
       };
+      
       setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error processing message:', error);
+      toast({
+        title: "Error",
+        description: "Failed to process message. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleReset = () => {
