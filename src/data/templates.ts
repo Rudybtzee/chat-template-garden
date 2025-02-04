@@ -2,73 +2,73 @@ import { Template } from "@/types/chat";
 
 export const templates: Template[] = [
   {
-    id: "general",
-    name: "General Assistant",
-    description: "A helpful AI assistant for general questions and conversations.",
-    systemPrompt: "You are a helpful AI assistant.",
+    id: "real-estate",
+    name: "Real Estate Agent",
+    description: "Assists with property listings, viewings, and client inquiries.",
+    systemPrompt: "You are a real estate assistant helping with property-related queries.",
     exampleMessages: []
   },
   {
-    id: "writing",
-    name: "Writing Assistant",
-    description: "Helps with writing, editing, and improving your text.",
-    systemPrompt: "You are a writing assistant focused on helping users improve their writing.",
+    id: "legal",
+    name: "Legal Assistant",
+    description: "Helps with basic legal information and document preparation.",
+    systemPrompt: "You are a legal assistant providing general legal information and guidance.",
     exampleMessages: []
   },
   {
-    id: "coding",
-    name: "Code Assistant",
-    description: "Helps with programming and technical questions.",
-    systemPrompt: "You are a coding assistant with expertise in programming.",
+    id: "healthcare",
+    name: "Healthcare Provider",
+    description: "Manages appointment scheduling and general medical inquiries.",
+    systemPrompt: "You are a healthcare assistant helping with medical scheduling and basic information.",
     exampleMessages: []
   },
   {
-    id: "creative",
-    name: "Creative Writing",
-    description: "Assists with creative writing and storytelling.",
-    systemPrompt: "You are a creative writing assistant helping users craft stories.",
+    id: "financial",
+    name: "Financial Advisor",
+    description: "Provides financial planning and investment guidance.",
+    systemPrompt: "You are a financial advisory assistant helping with financial planning queries.",
     exampleMessages: []
   },
   {
-    id: "academic",
-    name: "Academic Writing",
-    description: "Helps with academic papers and research.",
-    systemPrompt: "You are an academic writing assistant helping with research papers.",
+    id: "hr",
+    name: "HR Manager",
+    description: "Handles employee inquiries and HR-related questions.",
+    systemPrompt: "You are an HR assistant helping with employment and workplace queries.",
     exampleMessages: []
   },
   {
-    id: "business",
-    name: "Business Writing",
-    description: "Assists with business communications and documents.",
-    systemPrompt: "You are a business writing assistant helping with professional communications.",
+    id: "insurance",
+    name: "Insurance Agent",
+    description: "Assists with insurance quotes and policy information.",
+    systemPrompt: "You are an insurance assistant helping with policy and coverage questions.",
     exampleMessages: []
   },
   {
-    id: "translator",
-    name: "Language Translator",
-    description: "Helps translate between different languages.",
-    systemPrompt: "You are a language translation assistant.",
+    id: "education",
+    name: "Education Consultant",
+    description: "Helps with academic planning and educational guidance.",
+    systemPrompt: "You are an education consultant assisting with academic and career planning.",
     exampleMessages: []
   },
   {
-    id: "teacher",
-    name: "Teaching Assistant",
-    description: "Helps explain complex topics in simple terms.",
-    systemPrompt: "You are a teaching assistant helping users understand complex topics.",
+    id: "marketing",
+    name: "Marketing Strategist",
+    description: "Provides marketing and advertising guidance.",
+    systemPrompt: "You are a marketing assistant helping with marketing strategy and campaigns.",
     exampleMessages: []
   },
   {
-    id: "math",
-    name: "Math Tutor",
-    description: "Assists with mathematical problems and concepts.",
-    systemPrompt: "You are a math tutor helping users solve problems.",
+    id: "consulting",
+    name: "Business Consultant",
+    description: "Offers business strategy and operational advice.",
+    systemPrompt: "You are a business consultant helping with strategy and operations.",
     exampleMessages: []
   },
   {
-    id: "brainstorm",
-    name: "Brainstorming Partner",
-    description: "Helps generate ideas and creative solutions.",
-    systemPrompt: "You are a brainstorming assistant helping users generate ideas.",
+    id: "property-management",
+    name: "Property Manager",
+    description: "Manages tenant relations and property maintenance.",
+    systemPrompt: "You are a property management assistant helping with tenant and maintenance issues.",
     exampleMessages: []
   }
 ];
