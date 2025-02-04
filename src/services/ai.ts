@@ -33,10 +33,10 @@ export const processMessage = async (
     // Process with Gemini
     const model = initializeGemini(geminiApiKey);
     
-    // Prepare chat history
+    // Prepare chat history - convert to Gemini's expected format
     const chatHistory = history.map(msg => ({
       role: msg.role === 'user' ? 'user' : 'model',
-      parts: msg.content,
+      parts: [{ text: msg.content }],
     }));
 
     // Start chat
