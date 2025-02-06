@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Template } from "@/types/chat";
+import { Template, Message } from "@/types/chat";
 import { DashboardStats } from "@/types/admin";
 import TemplateList from "@/components/admin/TemplateList";
 import TemplateDialog from "@/components/admin/TemplateDialog";
@@ -53,11 +53,17 @@ const Admin = () => {
         
         if (templatesData) {
           const formattedTemplates: Template[] = templatesData.map(template => ({
-            ...template,
-            example_messages: template.example_messages as Template['example_messages'] || [],
+            id: template.id,
+            name: template.name,
+            description: template.description,
+            category: template.category,
+            system_prompt: template.system_prompt,
+            example_messages: (template.example_messages as Message[]) || [],
             features: template.features || [],
-            company_info: template.company_info as Template['company_info'] || {},
-            style: template.style as Template['style'] || {},
+            company_info: template.company_info || {},
+            style: template.style || {},
+            created_at: template.created_at,
+            updated_at: template.updated_at
           }));
           setTemplates(formattedTemplates);
         }
@@ -79,7 +85,10 @@ const Admin = () => {
     try {
       setIsSaving(true);
       const formattedTemplate = {
-        ...templateData,
+        name: templateData.name,
+        description: templateData.description,
+        category: templateData.category,
+        system_prompt: templateData.system_prompt,
         company_info: templateData.company_info || {},
         style: templateData.style || {},
         features: templateData.features || [],
@@ -118,11 +127,17 @@ const Admin = () => {
       
       if (data) {
         const formattedTemplates: Template[] = data.map(template => ({
-          ...template,
-          example_messages: template.example_messages as Template['example_messages'] || [],
+          id: template.id,
+          name: template.name,
+          description: template.description,
+          category: template.category,
+          system_prompt: template.system_prompt,
+          example_messages: (template.example_messages as Message[]) || [],
           features: template.features || [],
-          company_info: template.company_info as Template['company_info'] || {},
-          style: template.style as Template['style'] || {},
+          company_info: template.company_info || {},
+          style: template.style || {},
+          created_at: template.created_at,
+          updated_at: template.updated_at
         }));
         setTemplates(formattedTemplates);
       }
