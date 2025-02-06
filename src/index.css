@@ -57,6 +57,39 @@
   @apply relative overflow-hidden rounded-xl bg-white/50 backdrop-blur-sm border border-gray-200/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
 }
 
+.template-card.expanded {
+  @apply col-span-2 row-span-2;
+}
+
+.template-card .gradient-overlay {
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(59, 130, 246, 0.2) 100%);
+}
+
+.template-card:hover .gradient-overlay {
+  @apply opacity-100;
+}
+
+.template-card .logo-container {
+  @apply w-12 h-12 rounded-full overflow-hidden bg-primary/5 flex items-center justify-center transition-transform duration-300;
+}
+
+.template-card:hover .logo-container {
+  @apply scale-110;
+}
+
+.template-features {
+  @apply flex flex-wrap gap-2 mt-4;
+}
+
+.template-feature-tag {
+  @apply text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium transition-colors duration-200;
+}
+
+.template-feature-tag:hover {
+  @apply bg-primary/20;
+}
+
 .glass-panel {
   @apply bg-white/70 backdrop-blur-md border border-gray-100/20 shadow-sm;
 }
@@ -76,4 +109,44 @@
 .loading-dots span {
   @apply w-2 h-2 bg-gray-400 rounded-full inline-block mx-0.5 animate-bounce;
   animation-delay: calc(var(--dot-index) * 0.1s);
+}
+
+.template-info-section {
+  @apply space-y-4 p-4 rounded-lg bg-gray-50/50;
+}
+
+.template-info-row {
+  @apply flex items-center gap-2 text-sm text-gray-600;
+}
+
+.template-action-button {
+  @apply flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200;
+}
+
+.template-preview {
+  @apply p-6 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100/50;
+}
+
+.template-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.template-description {
+  @apply text-gray-600 leading-relaxed;
+}
+
+.template-metadata {
+  @apply grid grid-cols-2 gap-4 mt-4;
+}
+
+.template-stat {
+  @apply flex flex-col gap-1;
+}
+
+.template-stat-label {
+  @apply text-sm text-gray-500;
+}
+
+.template-stat-value {
+  @apply text-lg font-semibold;
 }
