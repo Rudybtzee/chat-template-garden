@@ -32,6 +32,8 @@ export interface CompanyInfo {
   };
   competitors?: string[];
   uniqueSellingPoints?: string[];
+  logoUrl?: string;
+  industry?: string;
 }
 
 export interface Template {

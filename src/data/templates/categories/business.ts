@@ -44,6 +44,11 @@ export const businessTemplates: Template[] = [
           answer: "Our pricing is customized based on project scope and requirements. We offer both hourly consulting and project-based pricing."
         }
       ]
+    },
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
     }
   }
 ];

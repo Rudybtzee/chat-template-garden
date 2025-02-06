@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Template, Message } from "@/types/chat";
+import { Template, Message, CompanyInfo } from "@/types/chat";
 import { DashboardStats } from "@/types/admin";
 import TemplateList from "@/components/admin/TemplateList";
 import TemplateDialog from "@/components/admin/TemplateDialog";
 import StatsGrid from "@/components/admin/StatsGrid";
+import { useToast } from "@/hooks/use-toast";
 
 const Admin = () => {
   const { toast } = useToast();
@@ -60,8 +60,12 @@ const Admin = () => {
             system_prompt: template.system_prompt,
             example_messages: (template.example_messages as Message[]) || [],
             features: template.features || [],
-            company_info: template.company_info || {},
-            style: template.style || {},
+            company_info: (template.company_info as CompanyInfo) || {},
+            style: (template.style as Template['style']) || {
+              primaryColor: undefined,
+              gradient: undefined,
+              darkMode: false
+            },
             created_at: template.created_at,
             updated_at: template.updated_at
           }));
@@ -89,10 +93,10 @@ const Admin = () => {
         description: templateData.description,
         category: templateData.category,
         system_prompt: templateData.system_prompt,
-        company_info: templateData.company_info || {},
-        style: templateData.style || {},
+        company_info: JSON.stringify(templateData.company_info || {}),
+        style: JSON.stringify(templateData.style || {}),
         features: templateData.features || [],
-        example_messages: templateData.example_messages || []
+        example_messages: JSON.stringify(templateData.example_messages || [])
       };
 
       if (selectedTemplate) {
@@ -120,10 +124,12 @@ const Admin = () => {
         });
       }
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('chat_templates')
         .select('*')
         .order('created_at', { ascending: false });
+      
+      if (error) throw error;
       
       if (data) {
         const formattedTemplates: Template[] = data.map(template => ({
@@ -134,8 +140,12 @@ const Admin = () => {
           system_prompt: template.system_prompt,
           example_messages: (template.example_messages as Message[]) || [],
           features: template.features || [],
-          company_info: template.company_info || {},
-          style: template.style || {},
+          company_info: (template.company_info as CompanyInfo) || {},
+          style: (template.style as Template['style']) || {
+            primaryColor: undefined,
+            gradient: undefined,
+            darkMode: false
+          },
           created_at: template.created_at,
           updated_at: template.updated_at
         }));
@@ -223,17 +233,6 @@ const Admin = () => {
           onSave={handleSaveTemplate}
           isLoading={isSaving}
         />
-
-        <Card className="col-span-full">
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Coming soon: Recent user registrations, conversations, and system events
-            </p>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
