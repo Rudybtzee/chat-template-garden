@@ -59,15 +59,20 @@ export const TemplateManager = () => {
         throw new Error("Missing required fields");
       }
 
+      // Prepare the data for Supabase
       const formattedTemplate = {
-        ...templateData,
+        name: templateData.name,
+        category: templateData.category,
+        description: templateData.description,
+        system_prompt: templateData.system_prompt,
         company_info: JSON.stringify(templateData.company_info || {}),
         style: JSON.stringify(templateData.style || {
           primaryColor: "#2563eb",
           gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
           darkMode: false
         }),
-        example_messages: JSON.stringify(templateData.example_messages || [])
+        example_messages: JSON.stringify(templateData.example_messages || []),
+        features: templateData.features || []
       };
 
       if (selectedTemplate) {
