@@ -5,21 +5,30 @@ export const financeTemplates: Template[] = [
     id: "financial",
     name: "Financial Advisor",
     description: "Provides financial planning and investment guidance.",
-    systemPrompt: "You are a financial advisory assistant helping with financial planning queries.",
-    exampleMessages: []
+    category: "finance",
+    system_prompt: "You are a financial advisory assistant helping with financial planning queries.",
+    example_messages: [],
+    features: ["Financial Planning", "Investment Guidance", "Risk Assessment"],
+    company_info: {}
   },
   {
     id: "tax-advisor",
     name: "Tax Advisor",
     description: "Provides guidance on tax planning and compliance.",
-    systemPrompt: "You are a tax advisory assistant helping with tax-related queries and planning.",
-    exampleMessages: []
+    category: "finance",
+    system_prompt: "You are a tax advisory assistant helping with tax-related queries and planning.",
+    example_messages: [],
+    features: ["Tax Planning", "Compliance", "Deduction Optimization"],
+    company_info: {}
   },
   {
     id: "mortgage-advisor",
     name: "Mortgage Advisor",
     description: "Provides mortgage and lending guidance.",
-    systemPrompt: "You are a mortgage advisory assistant helping with lending and mortgage queries.",
-    exampleMessages: []
+    category: "finance",
+    system_prompt: "You are a mortgage advisory assistant helping with lending and mortgage queries.",
+    example_messages: [],
+    features: ["Mortgage Planning", "Rate Analysis", "Loan Guidance"],
+    company_info: {}
   }
 ];

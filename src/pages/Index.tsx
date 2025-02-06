@@ -47,7 +47,12 @@ const Index = () => {
       // Transform the data to match Template interface
       return data.map(template => ({
         ...template,
-        example_messages: template.example_messages as Message[] || [],
+        example_messages: Array.isArray(template.example_messages) 
+          ? template.example_messages.map(msg => ({
+              role: msg.role as "user" | "assistant",
+              content: msg.content as string
+            }))
+          : [],
         company_info: template.company_info || {},
         features: template.features || []
       })) as Template[];

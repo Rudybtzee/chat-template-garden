@@ -33,6 +33,8 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
     setImageUrl("/placeholder.svg");
   };
 
+  const industry = template.company_info?.industry || template.industry;
+
   return (
     <Card className={`template-card group transition-all duration-300 ${
       isExpanded ? 'col-span-2 row-span-2' : ''
@@ -51,8 +53,8 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
           </div>
           <div>
             <CardTitle className="text-lg font-medium">{template.name}</CardTitle>
-            {template.industry && (
-              <p className="text-sm text-muted-foreground">{template.industry}</p>
+            {industry && (
+              <p className="text-sm text-muted-foreground">{industry}</p>
             )}
           </div>
         </div>

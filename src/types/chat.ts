@@ -50,6 +50,8 @@ export interface Template {
   };
   created_at?: string;
   updated_at?: string;
+  logoUrl?: string;
+  industry?: string;
 }
 
 export interface Conversation {
