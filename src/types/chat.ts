@@ -9,4 +9,11 @@ export interface Template {
   description: string;
   systemPrompt: string;
   exampleMessages: Message[];
+  logoUrl?: string;
+  features?: string[];
+  style?: {
+    primaryColor?: string;
+    gradient?: string;
+    darkMode?: boolean;
+  };
 }
