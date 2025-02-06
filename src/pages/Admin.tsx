@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, MessageSquare, FileText, Activity } from "lucide-react";
+import { Users, MessageSquare, FileText, Activity, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Template } from "@/types/chat";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { templateCategories } from "@/data/templates";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface DashboardStats {
   totalUsers: number;
@@ -20,6 +28,13 @@ const Admin = () => {
     totalTemplates: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newTemplate, setNewTemplate] = useState<Partial<Template>>({
+    name: "",
+    description: "",
+    category: "",
+    system_prompt: "",
+  });
 
   useEffect(() => {
     const fetchAdminStats = async () => {
@@ -71,6 +86,45 @@ const Admin = () => {
 
     fetchAdminStats();
   }, [toast]);
+
+  const handleCreateTemplate = async () => {
+    try {
+      setIsCreating(true);
+      const { error } = await supabase
+        .from('chat_templates')
+        .insert([
+          {
+            name: newTemplate.name,
+            description: newTemplate.description,
+            category: newTemplate.category,
+            system_prompt: newTemplate.system_prompt,
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Template created successfully",
+      });
+
+      // Reset form
+      setNewTemplate({
+        name: "",
+        description: "",
+        category: "",
+        system_prompt: "",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error creating template",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsCreating(false);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -136,6 +190,87 @@ const Admin = () => {
           </Card>
         </div>
 
+        {/* Template Management Section */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>Template Management</CardTitle>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    New Template
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Create New Template</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                        id="name"
+                        value={newTemplate.name}
+                        onChange={(e) => setNewTemplate(prev => ({ ...prev, name: e.target.value }))}
+                        placeholder="Template name"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="category">Category</Label>
+                      <Select
+                        value={newTemplate.category}
+                        onValueChange={(value) => setNewTemplate(prev => ({ ...prev, category: value }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.keys(templateCategories).map((category) => (
+                            <SelectItem key={category} value={category}>
+                              {category.charAt(0).toUpperCase() + category.slice(1)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="description">Description</Label>
+                      <Textarea
+                        id="description"
+                        value={newTemplate.description}
+                        onChange={(e) => setNewTemplate(prev => ({ ...prev, description: e.target.value }))}
+                        placeholder="Template description"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="system_prompt">System Prompt</Label>
+                      <Textarea
+                        id="system_prompt"
+                        value={newTemplate.system_prompt}
+                        onChange={(e) => setNewTemplate(prev => ({ ...prev, system_prompt: e.target.value }))}
+                        placeholder="System prompt for the AI"
+                      />
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={handleCreateTemplate} 
+                    disabled={isCreating}
+                    className="w-full"
+                  >
+                    {isCreating ? "Creating..." : "Create Template"}
+                  </Button>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Create and manage chat templates from here. Templates will be available to all users.
+            </p>
+          </CardContent>
+        </Card>
+
         {/* Recent Activity Section */}
         <Card className="col-span-full">
           <CardHeader>
@@ -149,7 +284,7 @@ const Admin = () => {
         </Card>
       </div>
     </div>
-  );
+  </>;
 };
 
 export default Admin;
