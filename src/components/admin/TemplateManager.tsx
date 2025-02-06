@@ -1,147 +1,27 @@
 import { useState } from "react";
-import { Template, Message } from "@/types/chat";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { Template } from "@/types/chat";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import TemplateList from "@/components/admin/TemplateList";
 import TemplateDialog from "@/components/admin/TemplateDialog";
+import { useTemplates } from "./hooks/useTemplates";
 
 export const TemplateManager = () => {
-  const { toast } = useToast();
-  const [templates, setTemplates] = useState<Template[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
+  const { templates, isLoading, isSaving, saveTemplate, deleteTemplate } = useTemplates();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
-
-  const fetchTemplates = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('chat_templates')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      if (data) {
-        const formattedTemplates: Template[] = data.map(template => ({
-          ...template,
-          example_messages: template.example_messages ? (template.example_messages as unknown as Message[]) : [],
-          company_info: template.company_info ? JSON.parse(JSON.stringify(template.company_info)) : {},
-          style: template.style ? JSON.parse(JSON.stringify(template.style)) : {
-            primaryColor: "#2563eb",
-            gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
-            darkMode: false
-          }
-        }));
-        setTemplates(formattedTemplates);
-      }
-    } catch (error) {
-      console.error('Error fetching templates:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load templates",
-        variant: "destructive"
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSaveTemplate = async (templateData: Partial<Template>) => {
-    try {
-      setIsSaving(true);
-      
-      // Ensure all required fields are present
-      if (!templateData.name || !templateData.category || !templateData.description || !templateData.system_prompt) {
-        throw new Error("Missing required fields");
-      }
-
-      // Prepare the data for Supabase
-      const formattedTemplate = {
-        name: templateData.name,
-        category: templateData.category,
-        description: templateData.description,
-        system_prompt: templateData.system_prompt,
-        company_info: JSON.stringify(templateData.company_info || {}),
-        style: JSON.stringify(templateData.style || {
-          primaryColor: "#2563eb",
-          gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
-          darkMode: false
-        }),
-        example_messages: JSON.stringify(templateData.example_messages || []),
-        features: templateData.features || []
-      };
-
-      if (selectedTemplate) {
-        const { error } = await supabase
-          .from('chat_templates')
-          .update(formattedTemplate)
-          .eq('id', selectedTemplate.id);
-
-        if (error) throw error;
-
-        toast({
-          title: "Success",
-          description: "Template updated successfully"
-        });
-      } else {
-        const { error } = await supabase
-          .from('chat_templates')
-          .insert([formattedTemplate]);
-
-        if (error) throw error;
-
-        toast({
-          title: "Success",
-          description: "Template created successfully"
-        });
-      }
-
-      await fetchTemplates();
-      setDialogOpen(false);
-      setSelectedTemplate(null);
-    } catch (error) {
-      console.error('Error saving template:', error);
-      toast({
-        title: "Error",
-        description: "Failed to save template",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
   const handleEditTemplate = (template: Template) => {
     setSelectedTemplate(template);
     setDialogOpen(true);
   };
 
-  const handleDeleteTemplate = async (templateId: string) => {
-    try {
-      const { error } = await supabase
-        .from('chat_templates')
-        .delete()
-        .eq('id', templateId);
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: "Template deleted successfully"
-      });
-
-      await fetchTemplates();
-    } catch (error) {
-      console.error('Error deleting template:', error);
-      toast({
-        title: "Error",
-        description: "Failed to delete template",
-        variant: "destructive"
-      });
+  const handleSaveTemplate = async (templateData: Partial<Template>) => {
+    const success = await saveTemplate(templateData);
+    if (success) {
+      setDialogOpen(false);
+      setSelectedTemplate(null);
     }
   };
 
@@ -161,7 +41,7 @@ export const TemplateManager = () => {
           <TemplateList
             templates={templates}
             onEdit={handleEditTemplate}
-            onDelete={handleDeleteTemplate}
+            onDelete={deleteTemplate}
           />
         )}
       </CardContent>
