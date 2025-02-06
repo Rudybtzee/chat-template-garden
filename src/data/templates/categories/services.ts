@@ -9,7 +9,12 @@ export const serviceTemplates: Template[] = [
     system_prompt: "You are a customer service assistant helping with inquiries and resolution.",
     example_messages: [],
     features: ["Customer Support", "Issue Resolution", "Service Inquiries"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   },
   {
     id: "insurance",
@@ -19,7 +24,12 @@ export const serviceTemplates: Template[] = [
     system_prompt: "You are an insurance assistant helping with policy and coverage questions.",
     example_messages: [],
     features: ["Policy Information", "Coverage Quotes", "Claims Assistance"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   },
   {
     id: "travel-agent",
@@ -29,7 +39,12 @@ export const serviceTemplates: Template[] = [
     system_prompt: "You are a travel planning assistant helping with itineraries and bookings.",
     example_messages: [],
     features: ["Travel Planning", "Booking Assistance", "Itinerary Creation"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   },
   {
     id: "event-planner",
@@ -39,7 +54,12 @@ export const serviceTemplates: Template[] = [
     system_prompt: "You are an event planning assistant helping with event organization and coordination.",
     example_messages: [],
     features: ["Event Organization", "Vendor Coordination", "Timeline Planning"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   },
   {
     id: "wedding-planner",
@@ -49,6 +69,11 @@ export const serviceTemplates: Template[] = [
     system_prompt: "You are a wedding planning assistant helping with wedding organization and details.",
     example_messages: [],
     features: ["Wedding Planning", "Vendor Management", "Timeline Coordination"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   }
 ];

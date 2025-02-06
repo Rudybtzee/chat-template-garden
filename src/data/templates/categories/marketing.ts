@@ -9,7 +9,12 @@ export const marketingTemplates: Template[] = [
     system_prompt: "You are a marketing assistant helping with marketing strategy and campaigns.",
     example_messages: [],
     features: ["Marketing Strategy", "Campaign Planning", "Brand Development"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   },
   {
     id: "personal-stylist",
@@ -19,6 +24,11 @@ export const marketingTemplates: Template[] = [
     system_prompt: "You are a personal styling assistant helping with fashion recommendations.",
     example_messages: [],
     features: ["Style Consultation", "Fashion Advice", "Wardrobe Planning"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   }
 ];
