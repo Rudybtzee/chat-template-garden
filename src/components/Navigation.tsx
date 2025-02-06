@@ -25,12 +25,10 @@ export const Navigation = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
     });
 
-    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -70,6 +68,14 @@ export const Navigation = () => {
                     Home
                   </a>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <a 
+                    href="/product" 
+                    className={navigationMenuTriggerStyle() + " text-primary-purple transition-all duration-200 hover:bg-primary-purple/10"}
+                  >
+                    Product
+                  </a>
+                </NavigationMenuItem>
                 {user && (
                   <>
                     <NavigationMenuItem>
@@ -97,24 +103,34 @@ export const Navigation = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem>
+                            <a href="/resources">Resources Hub</a>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
                             <a href="/docs">Documentation</a>
                           </DropdownMenuItem>
                           <DropdownMenuItem>
                             <a href="/blog">Blog</a>
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <a href="/support">Support</a>
-                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                      <a 
-                        href="/pricing" 
-                        className={navigationMenuTriggerStyle() + " text-primary-purple transition-all duration-200 hover:bg-primary-purple/10"}
-                      >
-                        Pricing
-                      </a>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger className={navigationMenuTriggerStyle() + " text-primary-purple transition-all duration-200 hover:bg-primary-purple/10"}>
+                          Company
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem>
+                            <a href="/company">About Us</a>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <a href="/careers">Careers</a>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <a href="/legal">Legal</a>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </NavigationMenuItem>
                   </>
                 )}
@@ -167,12 +183,13 @@ export const Navigation = () => {
           <div className="md:hidden py-4 animate-in slide-in-from-top">
             <nav className="space-y-2">
               <a href="/" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Home</a>
+              <a href="/product" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Product</a>
               {user ? (
                 <>
                   <a href="/templates" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Templates</a>
-                  <a href="/integrations" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Integrations</a>
-                  <a href="/docs" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Documentation</a>
-                  <a href="/pricing" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Pricing</a>
+                  <a href="/resources" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Resources</a>
+                  <a href="/company" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Company</a>
+                  <a href="/legal" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Legal</a>
                   <button 
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md"
