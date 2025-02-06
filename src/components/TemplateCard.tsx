@@ -36,21 +36,30 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
   const industry = template.company_info?.industry || template.industry;
 
   return (
-    <Card className={`template-card ${isExpanded ? 'expanded' : ''}`}>
-      <div className="gradient-overlay" />
+    <Card className={`
+      relative overflow-hidden
+      transition-all duration-300 ease-in-out
+      hover:shadow-lg hover:-translate-y-1
+      bg-gradient-to-br from-background/60 to-background/30
+      backdrop-blur-lg border-muted/20
+      ${isExpanded ? 'expanded scale-[1.02]' : ''}
+    `}>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 pointer-events-none" />
       
       <CardHeader className="space-y-2">
         <div className="flex items-center gap-3">
-          <div className="logo-container">
+          <div className="logo-container p-2 bg-background/50 rounded-lg backdrop-blur-sm">
             <img
               src={imageUrl}
               alt={`${template.name} logo`}
-              className="w-8 h-8 object-contain"
+              className="w-8 h-8 object-contain transition-transform hover:scale-110"
               onError={handleImageError}
             />
           </div>
           <div>
-            <CardTitle className="text-lg font-medium">{template.name}</CardTitle>
+            <CardTitle className="text-lg font-medium bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
+              {template.name}
+            </CardTitle>
             {industry && (
               <p className="text-sm text-muted-foreground">{industry}</p>
             )}
@@ -59,14 +68,18 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <p className="template-description">{template.description}</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {template.description}
+        </p>
         
         {template.features && (
-          <div className="template-features">
+          <div className="flex flex-wrap gap-2">
             {template.features.map((feature, index) => (
               <span
                 key={index}
-                className="template-feature-tag"
+                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                bg-primary/10 text-primary border border-primary/20
+                transition-colors hover:bg-primary/20"
               >
                 {feature}
               </span>
@@ -75,12 +88,12 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
         )}
 
         {template.company_info && (
-          <div className="template-info-section">
+          <div className="space-y-2 mt-4">
             <TooltipProvider>
               {template.company_info.languages && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="template-info-row">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                       <Languages className="w-4 h-4" />
                       <span>{template.company_info.languages.join(", ")}</span>
                     </div>
@@ -94,7 +107,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
               {template.company_info.businessHours && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="template-info-row">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                       <Clock className="w-4 h-4" />
                       <span>{template.company_info.businessHours}</span>
                     </div>
@@ -108,7 +121,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
               {template.company_info.location && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="template-info-row">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                       <MapPin className="w-4 h-4" />
                       <span>{template.company_info.location.country}</span>
                     </div>
@@ -122,7 +135,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
               {template.company_info.targetAudience && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="template-info-row">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                       <Target className="w-4 h-4" />
                       <span>{template.company_info.targetAudience}</span>
                     </div>
@@ -137,11 +150,11 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
         )}
 
         {isExpanded && template.company_info?.commonQuestions && (
-          <div className="template-preview">
-            <h4 className="font-medium mb-4">Common Questions</h4>
-            <div className="space-y-4">
+          <div className="mt-6 space-y-4 animate-fade-in">
+            <h4 className="font-medium text-sm">Common Questions</h4>
+            <div className="space-y-3">
               {template.company_info.commonQuestions.map((q, index) => (
-                <div key={index} className="space-y-2">
+                <div key={index} className="space-y-1 p-3 rounded-lg bg-muted/50 backdrop-blur-sm">
                   <p className="font-medium text-sm">{q.question}</p>
                   <p className="text-sm text-muted-foreground">{q.answer}</p>
                 </div>
@@ -155,7 +168,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
         <Button 
           onClick={() => onSelect(template)} 
           variant="default" 
-          className="template-action-button flex-1"
+          className="flex-1 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
         >
           Use Template
         </Button>
@@ -163,7 +176,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
           variant="outline"
           size="icon"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="template-action-button"
+          className="transition-transform hover:scale-105"
         >
           <MessageSquare className="w-4 h-4" />
         </Button>
