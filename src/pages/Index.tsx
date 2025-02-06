@@ -32,8 +32,8 @@ const Index = () => {
         ...template,
         example_messages: Array.isArray(template.example_messages) 
           ? template.example_messages.map(msg => ({
-              role: msg.role as "user" | "assistant",
-              content: msg.content
+              role: (msg as { role: "user" | "assistant" }).role,
+              content: (msg as { content: string }).content
             }))
           : [],
         company_info: template.company_info || {},
