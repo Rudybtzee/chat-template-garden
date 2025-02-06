@@ -44,7 +44,13 @@ const Index = () => {
         return [];
       }
 
-      return data;
+      // Transform the data to match Template interface
+      return data.map(template => ({
+        ...template,
+        example_messages: template.example_messages as Message[] || [],
+        company_info: template.company_info || {},
+        features: template.features || []
+      })) as Template[];
     }
   });
 
