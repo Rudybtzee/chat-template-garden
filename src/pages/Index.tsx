@@ -44,13 +44,7 @@ const Index = () => {
         return [];
       }
 
-      // Transform the data to match our Template interface
-      return data.map((template: any): Template => ({
-        ...template,
-        systemPrompt: template.system_prompt,
-        exampleMessages: template.example_messages,
-        companyInfo: template.company_info
-      }));
+      return data;
     }
   });
 
@@ -97,7 +91,6 @@ const Index = () => {
     setIsLoading(true);
 
     try {
-      // Save user message to Supabase
       const user = (await supabase.auth.getUser()).data.user;
       if (user) {
         const { data: conversation } = await supabase
@@ -120,10 +113,9 @@ const Index = () => {
         }
       }
 
-      // Process message with AI
       const response = await processMessage(
         content,
-        selectedTemplate.systemPrompt,
+        selectedTemplate.system_prompt,
         messages,
         process.env.GEMINI_API_KEY || ''
       );
@@ -133,7 +125,6 @@ const Index = () => {
         content: response
       };
       
-      // Save assistant message to Supabase
       if (user) {
         const { data: conversation } = await supabase
           .from('chat_conversations')

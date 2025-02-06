@@ -42,59 +42,8 @@ export const businessTemplates: Template[] = [
         {
           question: "How do you charge for services?",
           answer: "Our pricing is customized based on project scope and requirements. We offer both hourly consulting and project-based pricing."
-        },
-        {
-          question: "What industries do you specialize in?",
-          answer: "We specialize in technology, healthcare, retail, and manufacturing sectors, with certified consultants in each field."
         }
-      ],
-      socialMedia: [
-        {
-          platform: "LinkedIn",
-          url: "https://linkedin.com/company/business-consulting"
-        },
-        {
-          platform: "Twitter",
-          url: "https://twitter.com/business-consulting"
-        }
-      ],
-      uniqueSellingPoints: [
-        "20+ years of industry experience",
-        "Certified consultants in multiple fields",
-        "Data-driven approach",
-        "Customized solutions"
       ]
-    }
-  },
-  {
-    id: "startup-advisor",
-    name: "Startup Advisor",
-    description: "Assists with startup planning and growth.",
-    category: "Business",
-    system_prompt: "You are a startup advisory assistant helping with business development and strategy.",
-    example_messages: [],
-    features: ["Funding Strategy", "Market Entry", "Team Building", "Product Development"],
-    company_info: {
-      industry: "Startup Advisory",
-      values: ["Innovation", "Agility", "Growth"],
-      tone: "friendly",
-      languages: ["English"],
-      businessHours: "Flexible Hours"
-    }
-  },
-  {
-    id: "project-manager",
-    name: "Project Manager",
-    description: "Assists with project planning and tracking.",
-    category: "Business",
-    system_prompt: "You are a project management assistant helping with project coordination.",
-    example_messages: [],
-    features: ["Project Planning", "Task Management", "Team Coordination", "Timeline Tracking"],
-    company_info: {
-      industry: "Project Management",
-      values: ["Efficiency", "Organization", "Communication"],
-      tone: "professional",
-      languages: ["English"]
     }
   }
 ];

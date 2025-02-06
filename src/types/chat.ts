@@ -50,6 +50,8 @@ export interface Template {
   };
   created_at?: string;
   updated_at?: string;
+  logoUrl?: string;
+  industry?: string;
 }
 
 export interface Conversation {
@@ -61,41 +63,4 @@ export interface Conversation {
   updated_at: string;
   messages?: Message[];
   template?: Template;
-}
-
-export interface Profile {
-  id: string;
-  full_name?: string;
-  avatar_url?: string;
-  email?: string;
-  company_name?: string;
-  role?: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface CompanyProfile {
-  id: string;
-  user_id: string;
-  name: string;
-  industry?: string;
-  values?: string[];
-  tone?: string;
-  languages?: string[];
-  business_hours?: string;
-  target_audience?: string;
-  common_questions?: { question: string; answer: string }[];
-  social_media?: { platform: string; url: string }[];
-  location?: {
-    country: string;
-    timezone: string;
-    operating_regions?: string[];
-  };
-  brand_guidelines?: {
-    colors?: string[];
-    voice_tone?: string;
-    keywords?: string[];
-  };
-  created_at: string;
-  updated_at: string;
 }

@@ -74,15 +74,15 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
           </div>
         )}
 
-        {template.companyInfo && (
+        {template.company_info && (
           <div className="space-y-2 pt-2 border-t">
             <TooltipProvider>
-              {template.companyInfo.languages && (
+              {template.company_info.languages && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Languages className="w-4 h-4" />
-                      <span>{template.companyInfo.languages.join(", ")}</span>
+                      <span>{template.company_info.languages.join(", ")}</span>
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -91,12 +91,12 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
                 </Tooltip>
               )}
 
-              {template.companyInfo.businessHours && (
+              {template.company_info.businessHours && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Clock className="w-4 h-4" />
-                      <span>{template.companyInfo.businessHours}</span>
+                      <span>{template.company_info.businessHours}</span>
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -105,26 +105,26 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
                 </Tooltip>
               )}
 
-              {template.companyInfo.location && (
+              {template.company_info.location && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <MapPin className="w-4 h-4" />
-                      <span>{template.companyInfo.location.country}</span>
+                      <span>{template.company_info.location.country}</span>
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Location & Timezone: {template.companyInfo.location.timezone}</p>
+                    <p>Location & Timezone: {template.company_info.location.timezone}</p>
                   </TooltipContent>
                 </Tooltip>
               )}
 
-              {template.companyInfo.targetAudience && (
+              {template.company_info.targetAudience && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Target className="w-4 h-4" />
-                      <span>{template.companyInfo.targetAudience}</span>
+                      <span>{template.company_info.targetAudience}</span>
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -136,11 +136,11 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
           </div>
         )}
 
-        {isExpanded && template.companyInfo?.commonQuestions && (
+        {isExpanded && template.company_info?.commonQuestions && (
           <div className="mt-4 space-y-2">
             <h4 className="font-medium">Common Questions</h4>
             <div className="space-y-2">
-              {template.companyInfo.commonQuestions.map((q, index) => (
+              {template.company_info.commonQuestions.map((q, index) => (
                 <div key={index} className="text-sm">
                   <p className="font-medium">{q.question}</p>
                   <p className="text-muted-foreground">{q.answer}</p>
@@ -165,11 +165,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
           onClick={() => setIsExpanded(!isExpanded)}
           className="transition-all hover:bg-primary/10"
         >
-          {isExpanded ? (
-            <MessageSquare className="w-4 h-4" />
-          ) : (
-            <MessageSquare className="w-4 h-4" />
-          )}
+          <MessageSquare className="w-4 h-4" />
         </Button>
       </CardFooter>
     </Card>
