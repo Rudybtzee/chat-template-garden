@@ -14,6 +14,7 @@ import { ProfileTab } from "./settings/ProfileTab";
 import { CompanyTab } from "./settings/CompanyTab";
 import { PreferencesTab } from "./settings/PreferencesTab";
 import { toast } from "./ui/use-toast";
+import { Json } from "@/integrations/supabase/types";
 
 interface SettingsDialogProps {
   open: boolean;
@@ -49,11 +50,17 @@ export const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const cssStyles: CssStyles = {
-        primaryColor: companyProfile?.css_styles?.primaryColor,
-        secondaryColor: companyProfile?.css_styles?.secondaryColor,
-        customCss: companyProfile?.css_styles?.customCss
-      };
+      const cssStyles = {
+        primaryColor: typeof companyProfile?.css_styles === 'object' && companyProfile?.css_styles !== null 
+          ? (companyProfile.css_styles as Record<string, string>).primaryColor 
+          : undefined,
+        secondaryColor: typeof companyProfile?.css_styles === 'object' && companyProfile?.css_styles !== null 
+          ? (companyProfile.css_styles as Record<string, string>).secondaryColor 
+          : undefined,
+        customCss: typeof companyProfile?.css_styles === 'object' && companyProfile?.css_styles !== null 
+          ? (companyProfile.css_styles as Record<string, string>).customCss 
+          : undefined
+      } as Json;
 
       const { error: profileError } = await supabase
         .from('company_profiles')
