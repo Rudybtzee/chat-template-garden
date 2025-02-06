@@ -2,14 +2,26 @@ import { Template } from "@/types/chat";
 
 export const marketingTemplates: Template[] = [
   {
-    id: "marketing",
+    id: "marketing-strategist",
     name: "Marketing Strategist",
-    description: "Provides marketing and advertising guidance.",
+    description: "Develops comprehensive marketing strategies and campaigns.",
     category: "marketing",
-    system_prompt: "You are a marketing assistant helping with marketing strategy and campaigns.",
-    example_messages: [],
-    features: ["Marketing Strategy", "Campaign Planning", "Brand Development"],
-    company_info: {},
+    system_prompt: "You are a marketing strategist helping businesses develop effective marketing plans.",
+    example_messages: [
+      {
+        role: "user",
+        content: "How can we improve our social media presence?"
+      },
+      {
+        role: "assistant",
+        content: "Let's analyze your current social media strategy and identify areas for improvement..."
+      }
+    ],
+    features: ["Strategy Development", "Campaign Planning", "Market Research"],
+    company_info: {
+      industry: "Marketing",
+      logoUrl: "/placeholder.svg"
+    },
     style: {
       primaryColor: "#2563eb",
       gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
@@ -17,14 +29,17 @@ export const marketingTemplates: Template[] = [
     }
   },
   {
-    id: "personal-stylist",
-    name: "Personal Stylist",
-    description: "Provides fashion and styling advice.",
+    id: "content-strategist",
+    name: "Content Strategist",
+    description: "Plans and develops content marketing strategies.",
     category: "marketing",
-    system_prompt: "You are a personal styling assistant helping with fashion recommendations.",
+    system_prompt: "You are a content strategist helping create engaging and effective content plans.",
     example_messages: [],
-    features: ["Style Consultation", "Fashion Advice", "Wardrobe Planning"],
-    company_info: {},
+    features: ["Content Planning", "SEO Strategy", "Content Calendar"],
+    company_info: {
+      industry: "Content Marketing",
+      logoUrl: "/placeholder.svg"
+    },
     style: {
       primaryColor: "#2563eb",
       gradient: "bg-gradient-to-br from-blue-500 to-blue-600",

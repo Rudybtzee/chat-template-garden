@@ -2,14 +2,26 @@ import { Template } from "@/types/chat";
 
 export const technologyTemplates: Template[] = [
   {
-    id: "it-support",
-    name: "IT Support",
-    description: "Provides technical support and troubleshooting.",
+    id: "tech-support",
+    name: "Tech Support",
+    description: "Provides technical support and troubleshooting assistance.",
     category: "technology",
-    system_prompt: "You are an IT support assistant helping with technical issues and solutions.",
-    example_messages: [],
+    system_prompt: "You are a technical support assistant helping users resolve their technology issues.",
+    example_messages: [
+      {
+        role: "user",
+        content: "My computer is running slowly. What should I do?"
+      },
+      {
+        role: "assistant",
+        content: "Let's troubleshoot your computer's performance issues step by step..."
+      }
+    ],
     features: ["Technical Support", "Troubleshooting", "System Maintenance"],
-    company_info: {},
+    company_info: {
+      industry: "Technology",
+      logoUrl: "/placeholder.svg"
+    },
     style: {
       primaryColor: "#2563eb",
       gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
@@ -17,14 +29,17 @@ export const technologyTemplates: Template[] = [
     }
   },
   {
-    id: "social-media",
-    name: "Social Media Manager",
-    description: "Helps with social media strategy and content.",
+    id: "digital-marketing",
+    name: "Digital Marketing Specialist",
+    description: "Assists with digital marketing strategy and implementation.",
     category: "technology",
-    system_prompt: "You are a social media management assistant helping with content and strategy.",
+    system_prompt: "You are a digital marketing specialist helping with online marketing strategies.",
     example_messages: [],
-    features: ["Content Strategy", "Social Media Management", "Engagement Planning"],
-    company_info: {},
+    features: ["Marketing Strategy", "Social Media", "SEO Optimization"],
+    company_info: {
+      industry: "Digital Marketing",
+      logoUrl: "/placeholder.svg"
+    },
     style: {
       primaryColor: "#2563eb",
       gradient: "bg-gradient-to-br from-blue-500 to-blue-600",

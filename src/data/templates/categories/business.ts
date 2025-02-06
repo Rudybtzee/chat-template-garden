@@ -5,7 +5,7 @@ export const businessTemplates: Template[] = [
     id: "consulting",
     name: "Business Consultant",
     description: "Offers business strategy and operational advice with industry-specific insights.",
-    category: "Business",
+    category: "business",
     system_prompt: "You are a business consultant helping with strategy and operations. Use the company information provided to give contextual and relevant advice.",
     example_messages: [
       {
@@ -43,7 +43,26 @@ export const businessTemplates: Template[] = [
           question: "How do you charge for services?",
           answer: "Our pricing is customized based on project scope and requirements. We offer both hourly consulting and project-based pricing."
         }
-      ]
+      ],
+      logoUrl: "/placeholder.svg"
+    },
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
+  },
+  {
+    id: "startup-advisor",
+    name: "Startup Advisor",
+    description: "Specialized guidance for startups and early-stage companies.",
+    category: "business",
+    system_prompt: "You are a startup advisor helping entrepreneurs navigate the challenges of building and scaling their businesses.",
+    example_messages: [],
+    features: ["Startup Strategy", "Funding Guidance", "Growth Planning", "Market Entry"],
+    company_info: {
+      industry: "Startup Advisory",
+      logoUrl: "/placeholder.svg"
     },
     style: {
       primaryColor: "#2563eb",
