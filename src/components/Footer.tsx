@@ -2,11 +2,11 @@ import { Heart, Facebook, Twitter, Linkedin, Github } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="fixed bottom-0 left-0 right-0 bg-white/70 backdrop-blur-md border-t border-gray-100/20">
+    <footer className="bg-white/70 backdrop-blur-md border-t border-gray-100/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-semibold mb-4">Product</h3>
+            <h3 className="font-semibold mb-4 text-primary-purple">Product</h3>
             <ul className="space-y-2">
               <li><a href="/templates" className="text-sm text-muted-foreground hover:text-primary transition-colors">Templates</a></li>
               <li><a href="/integrations" className="text-sm text-muted-foreground hover:text-primary transition-colors">Integrations</a></li>
@@ -15,7 +15,7 @@ export const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Resources</h3>
+            <h3 className="font-semibold mb-4 text-primary-purple">Resources</h3>
             <ul className="space-y-2">
               <li><a href="/docs" className="text-sm text-muted-foreground hover:text-primary transition-colors">Documentation</a></li>
               <li><a href="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">Blog</a></li>
@@ -24,7 +24,7 @@ export const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Company</h3>
+            <h3 className="font-semibold mb-4 text-primary-purple">Company</h3>
             <ul className="space-y-2">
               <li><a href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">About</a></li>
               <li><a href="/careers" className="text-sm text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
@@ -33,7 +33,7 @@ export const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Legal</h3>
+            <h3 className="font-semibold mb-4 text-primary-purple">Legal</h3>
             <ul className="space-y-2">
               <li><a href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a></li>
               <li><a href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms of Service</a></li>

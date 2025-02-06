@@ -1,4 +1,4 @@
-import { Settings, Menu } from "lucide-react";
+import { Settings, Menu, LogIn } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   NavigationMenu,
@@ -29,14 +29,14 @@ export const Navigation = () => {
                 <NavigationMenuItem>
                   <a 
                     href="/" 
-                    className={navigationMenuTriggerStyle() + " transition-all duration-200 hover:bg-primary/10"}
+                    className={navigationMenuTriggerStyle() + " text-primary-purple transition-all duration-200 hover:bg-primary-purple/10"}
                   >
                     Home
                   </a>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <DropdownMenu>
-                    <DropdownMenuTrigger className={navigationMenuTriggerStyle() + " transition-all duration-200 hover:bg-primary/10"}>
+                    <DropdownMenuTrigger className={navigationMenuTriggerStyle() + " text-primary-purple transition-all duration-200 hover:bg-primary-purple/10"}>
                       Solutions
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -54,7 +54,7 @@ export const Navigation = () => {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <DropdownMenu>
-                    <DropdownMenuTrigger className={navigationMenuTriggerStyle() + " transition-all duration-200 hover:bg-primary/10"}>
+                    <DropdownMenuTrigger className={navigationMenuTriggerStyle() + " text-primary-purple transition-all duration-200 hover:bg-primary-purple/10"}>
                       Resources
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -73,7 +73,7 @@ export const Navigation = () => {
                 <NavigationMenuItem>
                   <a 
                     href="/pricing" 
-                    className={navigationMenuTriggerStyle() + " transition-all duration-200 hover:bg-primary/10"}
+                    className={navigationMenuTriggerStyle() + " text-primary-purple transition-all duration-200 hover:bg-primary-purple/10"}
                   >
                     Pricing
                   </a>
@@ -87,9 +87,17 @@ export const Navigation = () => {
               variant="ghost" 
               size="icon" 
               onClick={() => setShowSettings(true)}
-              className="transition-all duration-200 hover:bg-primary/10"
+              className="text-primary-purple transition-all duration-200 hover:bg-primary-purple/10"
             >
               <Settings className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden md:flex items-center space-x-2 text-primary-purple border-primary-purple hover:bg-primary-purple/10"
+              onClick={() => window.location.href = '/login'}
+            >
+              <LogIn className="h-4 w-4" />
+              <span>Login</span>
             </Button>
             <Button
               variant="ghost"
@@ -102,15 +110,15 @@ export const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 animate-in slide-in-from-top">
             <nav className="space-y-2">
-              <a href="/" className="block px-4 py-2 hover:bg-primary/10 rounded-md">Home</a>
-              <a href="/templates" className="block px-4 py-2 hover:bg-primary/10 rounded-md">Templates</a>
-              <a href="/integrations" className="block px-4 py-2 hover:bg-primary/10 rounded-md">Integrations</a>
-              <a href="/docs" className="block px-4 py-2 hover:bg-primary/10 rounded-md">Documentation</a>
-              <a href="/pricing" className="block px-4 py-2 hover:bg-primary/10 rounded-md">Pricing</a>
+              <a href="/" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Home</a>
+              <a href="/templates" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Templates</a>
+              <a href="/integrations" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Integrations</a>
+              <a href="/docs" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Documentation</a>
+              <a href="/pricing" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Pricing</a>
+              <a href="/login" className="block px-4 py-2 hover:bg-primary-purple/10 text-primary-purple rounded-md">Login</a>
             </nav>
           </div>
         )}

@@ -12,7 +12,7 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#9b87f5",
           foreground: "hsl(var(--primary-foreground))",
           purple: "#9b87f5",
           orange: "#F97316",
@@ -20,7 +20,7 @@ export default {
           pink: "#D946EF",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
+          DEFAULT: "#7E69AB",
           foreground: "hsl(var(--secondary-foreground))",
           purple: "#7E69AB",
         },
