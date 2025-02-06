@@ -24,7 +24,21 @@ const Auth = () => {
           const { data, error } = await supabase.auth.getSession();
           if (error) throw error;
           if (data?.session) {
-            navigate("/templates");
+            // Check if user has admin role
+            const { data: roleData, error: roleError } = await supabase
+              .from('user_roles')
+              .select('role')
+              .eq('user_id', data.session.user.id)
+              .single();
+
+            if (roleError) throw roleError;
+            
+            // Redirect based on role
+            if (roleData?.role === 'admin') {
+              navigate("/admin");
+            } else {
+              navigate("/templates");
+            }
           }
         } catch (error: any) {
           toast({
@@ -71,14 +85,28 @@ const Auth = () => {
           description: "Please check your email to verify your account.",
         });
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
 
         if (error) throw error;
 
-        navigate("/templates");
+        // Check if user has admin role
+        const { data: roleData, error: roleError } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', data.user.id)
+          .single();
+
+        if (roleError) throw roleError;
+
+        // Redirect based on role
+        if (roleData?.role === 'admin') {
+          navigate("/admin");
+        } else {
+          navigate("/templates");
+        }
       }
     } catch (error: any) {
       toast({
