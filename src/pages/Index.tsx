@@ -44,11 +44,10 @@ const Index = () => {
         return [];
       }
 
-      // Transform the data to match Template interface
       return data.map(template => ({
         ...template,
         example_messages: Array.isArray(template.example_messages) 
-          ? (template.example_messages as any[]).map(msg => ({
+          ? template.example_messages.map(msg => ({
               role: msg.role || "assistant",
               content: msg.content || ""
             }))
@@ -70,11 +69,20 @@ const Index = () => {
   });
 
   const handleTemplateSelect = async (template: Template) => {
-    setSelectedTemplate(template);
-    setMessages([]);
+    try {
+      setSelectedTemplate(template);
+      setMessages([]);
 
-    const user = (await supabase.auth.getUser()).data.user;
-    if (user) {
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to start a conversation.",
+          variant: "destructive"
+        });
+        return;
+      }
+
       const { error } = await supabase
         .from('chat_conversations')
         .insert({
@@ -90,7 +98,25 @@ const Index = () => {
           description: "Failed to start conversation. Please try again.",
           variant: "destructive"
         });
+        return;
       }
+
+      // Add initial system message if template has example messages
+      if (template.example_messages && template.example_messages.length > 0) {
+        setMessages(template.example_messages);
+      }
+
+      toast({
+        title: "Template Selected",
+        description: `Started conversation with ${template.name}`,
+      });
+    } catch (error) {
+      console.error('Error selecting template:', error);
+      toast({
+        title: "Error",
+        description: "Failed to select template. Please try again.",
+        variant: "destructive"
+      });
     }
   };
 
