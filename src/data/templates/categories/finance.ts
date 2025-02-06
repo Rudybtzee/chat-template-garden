@@ -9,7 +9,12 @@ export const financeTemplates: Template[] = [
     system_prompt: "You are a financial advisory assistant helping with financial planning queries.",
     example_messages: [],
     features: ["Financial Planning", "Investment Guidance", "Risk Assessment"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   },
   {
     id: "tax-advisor",
@@ -19,7 +24,12 @@ export const financeTemplates: Template[] = [
     system_prompt: "You are a tax advisory assistant helping with tax-related queries and planning.",
     example_messages: [],
     features: ["Tax Planning", "Compliance", "Deduction Optimization"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   },
   {
     id: "mortgage-advisor",
@@ -29,6 +39,11 @@ export const financeTemplates: Template[] = [
     system_prompt: "You are a mortgage advisory assistant helping with lending and mortgage queries.",
     example_messages: [],
     features: ["Mortgage Planning", "Rate Analysis", "Loan Guidance"],
-    company_info: {}
+    company_info: {},
+    style: {
+      primaryColor: "#2563eb",
+      gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+      darkMode: false
+    }
   }
 ];
