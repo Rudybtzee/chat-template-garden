@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Template, Message } from "@/types/chat";
+import { Template, Message, CompanyInfo } from "@/types/chat";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Json } from "@/integrations/supabase/types";
 
 export const useTemplates = () => {
   const { toast } = useToast();
@@ -38,9 +39,12 @@ export const useTemplates = () => {
           description: template.description,
           category: template.category,
           system_prompt: template.system_prompt,
-          example_messages: template.example_messages as Message[],
-          company_info: template.company_info || {},
-          style: template.style || {
+          example_messages: (template.example_messages as any[] || []).map(msg => ({
+            role: msg.role,
+            content: msg.content
+          })),
+          company_info: template.company_info as CompanyInfo || {},
+          style: template.style as Template['style'] || {
             primaryColor: "#2563eb",
             gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
             darkMode: false
@@ -74,13 +78,9 @@ export const useTemplates = () => {
         category: templateData.category,
         description: templateData.description,
         system_prompt: templateData.system_prompt,
-        company_info: templateData.company_info || {},
-        style: templateData.style || {
-          primaryColor: "#2563eb",
-          gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
-          darkMode: false
-        },
-        example_messages: templateData.example_messages || [],
+        company_info: templateData.company_info as Json,
+        style: templateData.style as Json,
+        example_messages: templateData.example_messages as Json,
         features: templateData.features || []
       };
 
