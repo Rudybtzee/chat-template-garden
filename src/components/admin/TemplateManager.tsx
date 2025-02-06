@@ -53,6 +53,12 @@ export const TemplateManager = () => {
   const handleSaveTemplate = async (templateData: Partial<Template>) => {
     try {
       setIsSaving(true);
+      
+      // Ensure all required fields are present
+      if (!templateData.name || !templateData.category || !templateData.description || !templateData.system_prompt) {
+        throw new Error("Missing required fields");
+      }
+
       const formattedTemplate = {
         ...templateData,
         company_info: JSON.stringify(templateData.company_info || {}),
