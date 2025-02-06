@@ -36,14 +36,12 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
   const industry = template.company_info?.industry || template.industry;
 
   return (
-    <Card className={`template-card group transition-all duration-300 ${
-      isExpanded ? 'col-span-2 row-span-2' : ''
-    }`}>
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 opacity-50 group-hover:opacity-70 transition-opacity rounded-xl" />
+    <Card className={`template-card ${isExpanded ? 'expanded' : ''}`}>
+      <div className="gradient-overlay" />
       
       <CardHeader className="space-y-2">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/5 flex items-center justify-center">
+          <div className="logo-container">
             <img
               src={imageUrl}
               alt={`${template.name} logo`}
@@ -61,14 +59,14 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <p className="text-sm text-muted-foreground">{template.description}</p>
+        <p className="template-description">{template.description}</p>
         
         {template.features && (
-          <div className="flex flex-wrap gap-2">
+          <div className="template-features">
             {template.features.map((feature, index) => (
               <span
                 key={index}
-                className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary"
+                className="template-feature-tag"
               >
                 {feature}
               </span>
@@ -77,12 +75,12 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
         )}
 
         {template.company_info && (
-          <div className="space-y-2 pt-2 border-t">
+          <div className="template-info-section">
             <TooltipProvider>
               {template.company_info.languages && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="template-info-row">
                       <Languages className="w-4 h-4" />
                       <span>{template.company_info.languages.join(", ")}</span>
                     </div>
@@ -96,7 +94,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
               {template.company_info.businessHours && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="template-info-row">
                       <Clock className="w-4 h-4" />
                       <span>{template.company_info.businessHours}</span>
                     </div>
@@ -110,7 +108,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
               {template.company_info.location && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="template-info-row">
                       <MapPin className="w-4 h-4" />
                       <span>{template.company_info.location.country}</span>
                     </div>
@@ -124,7 +122,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
               {template.company_info.targetAudience && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="template-info-row">
                       <Target className="w-4 h-4" />
                       <span>{template.company_info.targetAudience}</span>
                     </div>
@@ -139,13 +137,13 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
         )}
 
         {isExpanded && template.company_info?.commonQuestions && (
-          <div className="mt-4 space-y-2">
-            <h4 className="font-medium">Common Questions</h4>
-            <div className="space-y-2">
+          <div className="template-preview">
+            <h4 className="font-medium mb-4">Common Questions</h4>
+            <div className="space-y-4">
               {template.company_info.commonQuestions.map((q, index) => (
-                <div key={index} className="text-sm">
-                  <p className="font-medium">{q.question}</p>
-                  <p className="text-muted-foreground">{q.answer}</p>
+                <div key={index} className="space-y-2">
+                  <p className="font-medium text-sm">{q.question}</p>
+                  <p className="text-sm text-muted-foreground">{q.answer}</p>
                 </div>
               ))}
             </div>
@@ -157,7 +155,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
         <Button 
           onClick={() => onSelect(template)} 
           variant="default" 
-          className="flex-1 transition-all hover:bg-primary hover:text-primary-foreground"
+          className="template-action-button flex-1"
         >
           Use Template
         </Button>
@@ -165,7 +163,7 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
           variant="outline"
           size="icon"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="transition-all hover:bg-primary/10"
+          className="template-action-button"
         >
           <MessageSquare className="w-4 h-4" />
         </Button>
