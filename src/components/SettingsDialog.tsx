@@ -56,7 +56,7 @@ export const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
         .from('company_profiles')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();  // Changed from .single() to .maybeSingle()
 
       if (error) throw error;
       return data;
