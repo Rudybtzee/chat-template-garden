@@ -80,7 +80,10 @@ export const useTemplates = () => {
         system_prompt: templateData.system_prompt,
         company_info: templateData.company_info as Json,
         style: templateData.style as Json,
-        example_messages: templateData.example_messages as Json,
+        example_messages: templateData.example_messages?.map(msg => ({
+          role: msg.role,
+          content: msg.content
+        })) as Json,
         features: templateData.features || []
       };
 
