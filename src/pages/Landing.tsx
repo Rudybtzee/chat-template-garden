@@ -2,6 +2,10 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Bot, Zap, Shield, Code, Palette } from "lucide-react";
 import { Link } from "react-router-dom";
+import { PricingSection } from "@/components/landing/PricingSection";
+import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
+import { IntegrationSection } from "@/components/landing/IntegrationSection";
+import { FaqSection } from "@/components/landing/FaqSection";
 
 const Landing = () => {
   return (
@@ -98,6 +102,12 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
+      {/* New Sections */}
+      <PricingSection />
+      <TestimonialsSection />
+      <IntegrationSection />
+      <FaqSection />
 
       {/* CTA Section */}
       <section className="py-24 bg-primary-purple text-white">
