@@ -20,6 +20,12 @@ interface SettingsDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
+interface CssStyles {
+  primaryColor?: string;
+  secondaryColor?: string;
+  customCss?: string;
+}
+
 export const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
   const { data: companyProfile } = useQuery({
     queryKey: ['companyProfile'],
@@ -43,17 +49,19 @@ export const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
+      const cssStyles: CssStyles = {
+        primaryColor: companyProfile?.css_styles?.primaryColor,
+        secondaryColor: companyProfile?.css_styles?.secondaryColor,
+        customCss: companyProfile?.css_styles?.customCss
+      };
+
       const { error: profileError } = await supabase
         .from('company_profiles')
         .upsert({
           user_id: user.id,
           name: companyProfile?.name,
           industry: companyProfile?.industry,
-          css_styles: {
-            primaryColor: companyProfile?.css_styles?.primaryColor,
-            secondaryColor: companyProfile?.css_styles?.secondaryColor,
-            customCss: companyProfile?.css_styles?.customCss
-          },
+          css_styles: cssStyles,
         });
 
       if (profileError) throw profileError;
