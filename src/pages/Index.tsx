@@ -48,9 +48,9 @@ const Index = () => {
       return data.map(template => ({
         ...template,
         example_messages: Array.isArray(template.example_messages) 
-          ? template.example_messages.map(msg => ({
-              role: msg.role as "user" | "assistant",
-              content: msg.content as string
+          ? (template.example_messages as any[]).map(msg => ({
+              role: msg.role || "assistant",
+              content: msg.content || ""
             }))
           : [],
         company_info: template.company_info || {},
