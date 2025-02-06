@@ -28,9 +28,13 @@ export const TemplateManager = () => {
       if (data) {
         const formattedTemplates: Template[] = data.map(template => ({
           ...template,
-          example_messages: template.example_messages as Message[],
-          company_info: template.company_info as Template['company_info'],
-          style: template.style as Template['style']
+          example_messages: template.example_messages ? (template.example_messages as Message[]) : [],
+          company_info: template.company_info ? JSON.parse(JSON.stringify(template.company_info)) : {},
+          style: template.style ? JSON.parse(JSON.stringify(template.style)) : {
+            primaryColor: "#2563eb",
+            gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+            darkMode: false
+          }
         }));
         setTemplates(formattedTemplates);
       }
@@ -51,9 +55,13 @@ export const TemplateManager = () => {
       setIsSaving(true);
       const formattedTemplate = {
         ...templateData,
-        company_info: JSON.stringify(templateData.company_info),
-        style: JSON.stringify(templateData.style),
-        example_messages: JSON.stringify(templateData.example_messages)
+        company_info: JSON.stringify(templateData.company_info || {}),
+        style: JSON.stringify(templateData.style || {
+          primaryColor: "#2563eb",
+          gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
+          darkMode: false
+        }),
+        example_messages: JSON.stringify(templateData.example_messages || [])
       };
 
       if (selectedTemplate) {
