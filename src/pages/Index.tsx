@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Template, Message } from "@/types/chat";
-import { templates, templateCategories, TemplateCategory } from "@/data/templates";
+import { templateCategories, TemplateCategory } from "@/data/templates";
 import { TemplateCard } from "@/components/TemplateCard";
 import { ChatMessage } from "@/components/ChatMessage";
 import { ChatInput } from "@/components/ChatInput";
@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft, Search } from "lucide-react";
 import { processMessage } from "@/services/ai";
 import { useToast } from "@/components/ui/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Select,
   SelectContent,
@@ -25,6 +27,28 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<TemplateCategory | "all">("all");
   const { toast } = useToast();
 
+  // Fetch templates from Supabase
+  const { data: templates = [], isLoading: isLoadingTemplates } = useQuery({
+    queryKey: ['templates'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('chat_templates')
+        .select('*');
+      
+      if (error) {
+        console.error('Error fetching templates:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load templates. Please try again.",
+          variant: "destructive"
+        });
+        return [];
+      }
+
+      return data as Template[];
+    }
+  });
+
   const filteredTemplates = templates.filter(template => {
     const matchesSearch = template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          template.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -35,9 +59,30 @@ const Index = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const handleTemplateSelect = (template: Template) => {
+  const handleTemplateSelect = async (template: Template) => {
     setSelectedTemplate(template);
     setMessages([]);
+
+    // Create a new conversation in Supabase
+    const user = (await supabase.auth.getUser()).data.user;
+    if (user) {
+      const { error } = await supabase
+        .from('chat_conversations')
+        .insert({
+          user_id: user.id,
+          template_id: template.id,
+          title: `Chat with ${template.name}`
+        });
+
+      if (error) {
+        console.error('Error creating conversation:', error);
+        toast({
+          title: "Error",
+          description: "Failed to start conversation. Please try again.",
+          variant: "destructive"
+        });
+      }
+    }
   };
 
   const handleSendMessage = async (content: string) => {
@@ -48,6 +93,30 @@ const Index = () => {
     setIsLoading(true);
 
     try {
+      // Save user message to Supabase
+      const user = (await supabase.auth.getUser()).data.user;
+      if (user) {
+        const { data: conversation } = await supabase
+          .from('chat_conversations')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('template_id', selectedTemplate.id)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (conversation) {
+          await supabase
+            .from('chat_messages')
+            .insert({
+              conversation_id: conversation.id,
+              role: 'user',
+              content
+            });
+        }
+      }
+
+      // Process message with AI
       const response = await processMessage(
         content,
         selectedTemplate.systemPrompt,
@@ -59,6 +128,28 @@ const Index = () => {
         role: "assistant",
         content: response
       };
+      
+      // Save assistant message to Supabase
+      if (user) {
+        const { data: conversation } = await supabase
+          .from('chat_conversations')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('template_id', selectedTemplate.id)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (conversation) {
+          await supabase
+            .from('chat_messages')
+            .insert({
+              conversation_id: conversation.id,
+              role: 'assistant',
+              content: response
+            });
+        }
+      }
       
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
@@ -77,6 +168,18 @@ const Index = () => {
     setSelectedTemplate(null);
     setMessages([]);
   };
+
+  if (isLoadingTemplates) {
+    return (
+      <div className="min-h-screen pt-20 pb-20 flex items-center justify-center">
+        <div className="loading-dots">
+          <span style={{ "--dot-index": 0 } as any} />
+          <span style={{ "--dot-index": 1 } as any} />
+          <span style={{ "--dot-index": 2 } as any} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen pt-20 pb-20">

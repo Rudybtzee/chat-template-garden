@@ -9,889 +9,199 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      animations: {
+      chat_conversations: {
         Row: {
           created_at: string
-          data: Json
           id: string
-          thumbnail: string
+          template_id: string
           title: string
           updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
-          data: Json
           id?: string
-          thumbnail: string
+          template_id: string
           title: string
           updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
-          data?: Json
           id?: string
-          thumbnail?: string
+          template_id?: string
           title?: string
           updated_at?: string
           user_id?: string
-        }
-        Relationships: []
-      }
-      audio_tracks: {
-        Row: {
-          artist: string | null
-          bpm: number | null
-          created_at: string
-          duration: number | null
-          file_path: string
-          file_size: number
-          file_type: string
-          genre: string | null
-          id: string
-          key: string | null
-          title: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          artist?: string | null
-          bpm?: number | null
-          created_at?: string
-          duration?: number | null
-          file_path: string
-          file_size: number
-          file_type: string
-          genre?: string | null
-          id?: string
-          key?: string | null
-          title: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          artist?: string | null
-          bpm?: number | null
-          created_at?: string
-          duration?: number | null
-          file_path?: string
-          file_size?: number
-          file_type?: string
-          genre?: string | null
-          id?: string
-          key?: string | null
-          title?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      beats_promotions: {
-        Row: {
-          code: string
-          created_at: string
-          current_uses: number | null
-          discount_percent: number
-          ends_at: string
-          id: string
-          is_active: boolean | null
-          max_uses: number | null
-          starts_at: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          code: string
-          created_at?: string
-          current_uses?: number | null
-          discount_percent: number
-          ends_at: string
-          id?: string
-          is_active?: boolean | null
-          max_uses?: number | null
-          starts_at: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          code?: string
-          created_at?: string
-          current_uses?: number | null
-          discount_percent?: number
-          ends_at?: string
-          id?: string
-          is_active?: boolean | null
-          max_uses?: number | null
-          starts_at?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      beats_sales: {
-        Row: {
-          amount_paid: number
-          beat_id: string
-          buyer_id: string
-          created_at: string
-          id: string
-          license_type: string
-          seller_id: string
-          status: string
-          transaction_id: string
-        }
-        Insert: {
-          amount_paid: number
-          beat_id: string
-          buyer_id: string
-          created_at?: string
-          id?: string
-          license_type: string
-          seller_id: string
-          status?: string
-          transaction_id: string
-        }
-        Update: {
-          amount_paid?: number
-          beat_id?: string
-          buyer_id?: string
-          created_at?: string
-          id?: string
-          license_type?: string
-          seller_id?: string
-          status?: string
-          transaction_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "beats_sales_beat_id_fkey"
-            columns: ["beat_id"]
+            foreignKeyName: "chat_conversations_template_id_fkey"
+            columns: ["template_id"]
             isOneToOne: false
-            referencedRelation: "beats_store"
+            referencedRelation: "chat_templates"
             referencedColumns: ["id"]
           },
         ]
       }
-      beats_store: {
+      chat_messages: {
         Row: {
-          audio_track_id: string
+          content: string
+          conversation_id: string
           created_at: string
-          description: string | null
-          download_url: string
           id: string
-          is_active: boolean | null
-          license_terms: Json
-          preview_url: string
-          price: number
-          title: string
-          updated_at: string
-          user_id: string
-          watermark_enabled: boolean | null
+          role: string
         }
         Insert: {
-          audio_track_id: string
+          content: string
+          conversation_id: string
           created_at?: string
-          description?: string | null
-          download_url: string
           id?: string
-          is_active?: boolean | null
-          license_terms: Json
-          preview_url: string
-          price: number
-          title: string
-          updated_at?: string
-          user_id: string
-          watermark_enabled?: boolean | null
+          role: string
         }
         Update: {
-          audio_track_id?: string
+          content?: string
+          conversation_id?: string
           created_at?: string
-          description?: string | null
-          download_url?: string
           id?: string
-          is_active?: boolean | null
-          license_terms?: Json
-          preview_url?: string
-          price?: number
-          title?: string
-          updated_at?: string
-          user_id?: string
-          watermark_enabled?: boolean | null
+          role?: string
         }
         Relationships: [
           {
-            foreignKeyName: "beats_store_audio_track_id_fkey"
-            columns: ["audio_track_id"]
+            foreignKeyName: "chat_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
             isOneToOne: false
-            referencedRelation: "audio_tracks"
+            referencedRelation: "chat_conversations"
             referencedColumns: ["id"]
           },
         ]
       }
-      btzee: {
+      chat_templates: {
         Row: {
+          category: string
+          company_info: Json | null
           created_at: string
-          id: number
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      countries: {
-        Row: {
-          continent: Database["public"]["Enums"]["continents"] | null
-          id: number
-          iso2: string
-          iso3: string | null
-          local_name: string | null
-          name: string | null
-        }
-        Insert: {
-          continent?: Database["public"]["Enums"]["continents"] | null
-          id?: number
-          iso2: string
-          iso3?: string | null
-          local_name?: string | null
-          name?: string | null
-        }
-        Update: {
-          continent?: Database["public"]["Enums"]["continents"] | null
-          id?: number
-          iso2?: string
-          iso3?: string | null
-          local_name?: string | null
-          name?: string | null
-        }
-        Relationships: []
-      }
-      cube_presets: {
-        Row: {
-          created_at: string
+          description: string
+          example_messages: Json | null
+          features: string[] | null
           id: string
           name: string
-          settings: Json
-          texture_urls: string[]
+          style: Json | null
+          system_prompt: string
           updated_at: string
-          user_id: string
         }
         Insert: {
+          category: string
+          company_info?: Json | null
           created_at?: string
+          description: string
+          example_messages?: Json | null
+          features?: string[] | null
           id?: string
           name: string
-          settings: Json
-          texture_urls: string[]
+          style?: Json | null
+          system_prompt: string
           updated_at?: string
-          user_id: string
         }
         Update: {
+          category?: string
+          company_info?: Json | null
           created_at?: string
+          description?: string
+          example_messages?: Json | null
+          features?: string[] | null
           id?: string
           name?: string
-          settings?: Json
-          texture_urls?: string[]
+          style?: Json | null
+          system_prompt?: string
           updated_at?: string
-          user_id?: string
         }
         Relationships: []
       }
-      distribution_platforms: {
+      company_profiles: {
         Row: {
+          brand_guidelines: Json | null
+          business_hours: string | null
+          common_questions: Json | null
           created_at: string
           id: string
-          live_date: string | null
-          platform: string
-          platform_release_id: string | null
-          rejection_reason: string | null
-          release_id: string
-          status: string
-          submission_date: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          live_date?: string | null
-          platform: string
-          platform_release_id?: string | null
-          rejection_reason?: string | null
-          release_id: string
-          status?: string
-          submission_date?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          live_date?: string | null
-          platform?: string
-          platform_release_id?: string | null
-          rejection_reason?: string | null
-          release_id?: string
-          status?: string
-          submission_date?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "distribution_platforms_release_id_fkey"
-            columns: ["release_id"]
-            isOneToOne: false
-            referencedRelation: "distribution_releases"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      distribution_releases: {
-        Row: {
-          artist_name: string
-          audio_track_id: string
-          created_at: string
-          explicit: boolean | null
-          genre: string
-          id: string
-          isrc_code: string | null
-          language: string
-          license_type: string
-          metadata: Json | null
-          release_date: string
-          status: string
-          title: string
-          upc_code: string | null
+          industry: string | null
+          languages: string[] | null
+          location: Json | null
+          name: string
+          social_media: Json | null
+          target_audience: string | null
+          tone: string | null
           updated_at: string
           user_id: string
+          values: string[] | null
         }
         Insert: {
-          artist_name: string
-          audio_track_id: string
+          brand_guidelines?: Json | null
+          business_hours?: string | null
+          common_questions?: Json | null
           created_at?: string
-          explicit?: boolean | null
-          genre: string
           id?: string
-          isrc_code?: string | null
-          language: string
-          license_type: string
-          metadata?: Json | null
-          release_date: string
-          status?: string
-          title: string
-          upc_code?: string | null
+          industry?: string | null
+          languages?: string[] | null
+          location?: Json | null
+          name: string
+          social_media?: Json | null
+          target_audience?: string | null
+          tone?: string | null
           updated_at?: string
           user_id: string
+          values?: string[] | null
         }
         Update: {
-          artist_name?: string
-          audio_track_id?: string
-          created_at?: string
-          explicit?: boolean | null
-          genre?: string
-          id?: string
-          isrc_code?: string | null
-          language?: string
-          license_type?: string
-          metadata?: Json | null
-          release_date?: string
-          status?: string
-          title?: string
-          upc_code?: string | null
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "distribution_releases_audio_track_id_fkey"
-            columns: ["audio_track_id"]
-            isOneToOne: false
-            referencedRelation: "audio_tracks"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      error_logs: {
-        Row: {
-          created_at: string | null
-          error_message: string
-          error_type: string
-          id: string
-          resolution: string | null
-          stack_trace: string | null
-          status: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          error_message: string
-          error_type: string
-          id?: string
-          resolution?: string | null
-          stack_trace?: string | null
-          status?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          error_message?: string
-          error_type?: string
-          id?: string
-          resolution?: string | null
-          stack_trace?: string | null
-          status?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      export_queue: {
-        Row: {
-          animation_id: string
-          completed_at: string | null
-          created_at: string
-          id: string
-          output_url: string | null
-          progress: number | null
-          settings: Json
-          started_at: string | null
-          status: string
-          user_id: string
-        }
-        Insert: {
-          animation_id: string
-          completed_at?: string | null
+          brand_guidelines?: Json | null
+          business_hours?: string | null
+          common_questions?: Json | null
           created_at?: string
           id?: string
-          output_url?: string | null
-          progress?: number | null
-          settings: Json
-          started_at?: string | null
-          status?: string
-          user_id: string
-        }
-        Update: {
-          animation_id?: string
-          completed_at?: string | null
-          created_at?: string
-          id?: string
-          output_url?: string | null
-          progress?: number | null
-          settings?: Json
-          started_at?: string | null
-          status?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "export_queue_animation_id_fkey"
-            columns: ["animation_id"]
-            isOneToOne: false
-            referencedRelation: "animations"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      export_templates: {
-        Row: {
-          created_at: string
-          duration: number
-          format: string
-          framerate: number
-          id: string
-          name: string
-          resolution: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          duration: number
-          format: string
-          framerate: number
-          id?: string
-          name: string
-          resolution: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          duration?: number
-          format?: string
-          framerate?: number
-          id?: string
+          industry?: string | null
+          languages?: string[] | null
+          location?: Json | null
           name?: string
-          resolution?: string
+          social_media?: Json | null
+          target_audience?: string | null
+          tone?: string | null
+          updated_at?: string
           user_id?: string
-        }
-        Relationships: []
-      }
-      nods_page: {
-        Row: {
-          checksum: string | null
-          id: number
-          meta: Json | null
-          parent_page_id: number | null
-          path: string
-          source: string | null
-          type: string | null
-          user_id: string | null
-        }
-        Insert: {
-          checksum?: string | null
-          id?: number
-          meta?: Json | null
-          parent_page_id?: number | null
-          path: string
-          source?: string | null
-          type?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          checksum?: string | null
-          id?: number
-          meta?: Json | null
-          parent_page_id?: number | null
-          path?: string
-          source?: string | null
-          type?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "nods_page_parent_page_id_fkey"
-            columns: ["parent_page_id"]
-            isOneToOne: false
-            referencedRelation: "nods_page"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      nods_page_section: {
-        Row: {
-          content: string | null
-          embedding: string | null
-          heading: string | null
-          id: number
-          page_id: number
-          slug: string | null
-          token_count: number | null
-        }
-        Insert: {
-          content?: string | null
-          embedding?: string | null
-          heading?: string | null
-          id?: number
-          page_id: number
-          slug?: string | null
-          token_count?: number | null
-        }
-        Update: {
-          content?: string | null
-          embedding?: string | null
-          heading?: string | null
-          id?: number
-          page_id?: number
-          slug?: string | null
-          token_count?: number | null
+          values?: string[] | null
         }
         Relationships: []
       }
       profiles: {
         Row: {
           avatar_url: string | null
+          company_name: string | null
+          created_at: string
+          email: string | null
           full_name: string | null
           id: string
-          role: string
-          updated_at: string | null
-          username: string | null
-          website: string | null
+          role: string | null
+          updated_at: string
         }
         Insert: {
           avatar_url?: string | null
+          company_name?: string | null
+          created_at?: string
+          email?: string | null
           full_name?: string | null
           id: string
-          role?: string
-          updated_at?: string | null
-          username?: string | null
-          website?: string | null
+          role?: string | null
+          updated_at?: string
         }
         Update: {
           avatar_url?: string | null
+          company_name?: string | null
+          created_at?: string
+          email?: string | null
           full_name?: string | null
           id?: string
-          role?: string
-          updated_at?: string | null
-          username?: string | null
-          website?: string | null
-        }
-        Relationships: []
-      }
-      revenue_earnings: {
-        Row: {
-          created_at: string
-          currency: string
-          earnings_period: string
-          id: string
-          platform: string
-          release_id: string
-          revenue: number
-          streams: number
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          currency?: string
-          earnings_period: string
-          id?: string
-          platform: string
-          release_id: string
-          revenue?: number
-          streams?: number
+          role?: string | null
           updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          currency?: string
-          earnings_period?: string
-          id?: string
-          platform?: string
-          release_id?: string
-          revenue?: number
-          streams?: number
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "revenue_earnings_release_id_fkey"
-            columns: ["release_id"]
-            isOneToOne: false
-            referencedRelation: "distribution_releases"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      revenue_splits: {
-        Row: {
-          created_at: string
-          id: string
-          payout_info: Json | null
-          release_id: string
-          role: string
-          share_percentage: number
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          payout_info?: Json | null
-          release_id: string
-          role: string
-          share_percentage: number
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          payout_info?: Json | null
-          release_id?: string
-          role?: string
-          share_percentage?: number
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "revenue_splits_release_id_fkey"
-            columns: ["release_id"]
-            isOneToOne: false
-            referencedRelation: "distribution_releases"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      social_accounts: {
-        Row: {
-          access_token: string
-          created_at: string
-          id: string
-          platform: string
-          platform_user_id: string
-          platform_username: string
-          refresh_token: string | null
-          token_expires_at: string | null
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          access_token: string
-          created_at?: string
-          id?: string
-          platform: string
-          platform_user_id: string
-          platform_username: string
-          refresh_token?: string | null
-          token_expires_at?: string | null
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          access_token?: string
-          created_at?: string
-          id?: string
-          platform?: string
-          platform_user_id?: string
-          platform_username?: string
-          refresh_token?: string | null
-          token_expires_at?: string | null
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      social_shares: {
-        Row: {
-          content_id: string
-          content_type: string
-          created_at: string
-          engagement_data: Json | null
-          id: string
-          platform: string
-          platform_post_id: string | null
-          published_at: string | null
-          scheduled_for: string | null
-          status: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          content_id: string
-          content_type: string
-          created_at?: string
-          engagement_data?: Json | null
-          id?: string
-          platform: string
-          platform_post_id?: string | null
-          published_at?: string | null
-          scheduled_for?: string | null
-          status?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          content_id?: string
-          content_type?: string
-          created_at?: string
-          engagement_data?: Json | null
-          id?: string
-          platform?: string
-          platform_post_id?: string | null
-          published_at?: string | null
-          scheduled_for?: string | null
-          status?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      table_name: {
-        Row: {
-          data: Json | null
-          id: number
-          inserted_at: string
-          name: string | null
-          updated_at: string
-          user_id: string | null
-        }
-        Insert: {
-          data?: Json | null
-          id?: number
-          inserted_at?: string
-          name?: string | null
-          updated_at?: string
-          user_id?: string | null
-        }
-        Update: {
-          data?: Json | null
-          id?: number
-          inserted_at?: string
-          name?: string | null
-          updated_at?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      user_preferences: {
-        Row: {
-          created_at: string
-          notification_settings: Json | null
-          theme: string | null
-          tour_progress: Json | null
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          notification_settings?: Json | null
-          theme?: string | null
-          tour_progress?: Json | null
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          notification_settings?: Json | null
-          theme?: string | null
-          tour_progress?: Json | null
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      video_exports: {
-        Row: {
-          created_at: string
-          duration: number
-          format: string
-          framerate: number
-          id: string
-          output_url: string | null
-          resolution: string
-          status: string
-          title: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          duration: number
-          format: string
-          framerate: number
-          id?: string
-          output_url?: string | null
-          resolution: string
-          status?: string
-          title: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          duration?: number
-          format?: string
-          framerate?: number
-          id?: string
-          output_url?: string | null
-          resolution?: string
-          status?: string
-          title?: string
-          updated_at?: string
-          user_id?: string
         }
         Relationships: []
       }
