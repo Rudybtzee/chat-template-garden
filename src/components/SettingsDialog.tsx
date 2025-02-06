@@ -62,11 +62,14 @@ export const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
           : undefined
       } as Json;
 
+      // Ensure we have a name value, using a default if none exists
+      const name = companyProfile?.name || 'My Company';
+
       const { error: profileError } = await supabase
         .from('company_profiles')
         .upsert({
           user_id: user.id,
-          name: companyProfile?.name,
+          name: name, // Make sure we always have a name
           industry: companyProfile?.industry,
           css_styles: cssStyles,
         });
