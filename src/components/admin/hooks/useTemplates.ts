@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Template, Message } from "@/types/chat";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 export const useTemplates = () => {
   const { toast } = useToast();
@@ -9,8 +9,13 @@ export const useTemplates = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
+  useEffect(() => {
+    fetchTemplates();
+  }, []);
+
   const fetchTemplates = async () => {
     try {
+      setIsLoading(true);
       const { data, error } = await supabase
         .from('chat_templates')
         .select('*')
@@ -20,18 +25,23 @@ export const useTemplates = () => {
 
       if (data) {
         const formattedTemplates: Template[] = data.map(template => ({
-          ...template,
-          example_messages: template.example_messages ? (template.example_messages as unknown as Message[]) : [],
+          id: template.id,
+          name: template.name,
+          description: template.description,
+          category: template.category,
+          system_prompt: template.system_prompt,
+          example_messages: template.example_messages ? JSON.parse(JSON.stringify(template.example_messages)) as Message[] : [],
           company_info: template.company_info ? JSON.parse(JSON.stringify(template.company_info)) : {},
           style: template.style ? JSON.parse(JSON.stringify(template.style)) : {
             primaryColor: "#2563eb",
             gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
             darkMode: false
-          }
+          },
+          features: template.features || []
         }));
         setTemplates(formattedTemplates);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching templates:', error);
       toast({
         title: "Error",
@@ -93,11 +103,11 @@ export const useTemplates = () => {
 
       await fetchTemplates();
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving template:', error);
       toast({
         title: "Error",
-        description: "Failed to save template",
+        description: error.message || "Failed to save template",
         variant: "destructive"
       });
       return false;
@@ -122,7 +132,7 @@ export const useTemplates = () => {
 
       await fetchTemplates();
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting template:', error);
       toast({
         title: "Error",
