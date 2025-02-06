@@ -28,7 +28,7 @@ export const TemplateManager = () => {
       if (data) {
         const formattedTemplates: Template[] = data.map(template => ({
           ...template,
-          example_messages: template.example_messages ? (template.example_messages as Message[]) : [],
+          example_messages: template.example_messages ? (template.example_messages as unknown as Message[]) : [],
           company_info: template.company_info ? JSON.parse(JSON.stringify(template.company_info)) : {},
           style: template.style ? JSON.parse(JSON.stringify(template.style)) : {
             primaryColor: "#2563eb",
