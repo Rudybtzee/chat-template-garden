@@ -27,7 +27,6 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<TemplateCategory | "all">("all");
   const { toast } = useToast();
 
-  // Fetch templates from Supabase
   const { data: templates = [], isLoading: isLoadingTemplates } = useQuery({
     queryKey: ['templates'],
     queryFn: async () => {
@@ -45,7 +44,13 @@ const Index = () => {
         return [];
       }
 
-      return data as Template[];
+      // Transform the data to match our Template interface
+      return data.map((template: any): Template => ({
+        ...template,
+        systemPrompt: template.system_prompt,
+        exampleMessages: template.example_messages,
+        companyInfo: template.company_info
+      }));
     }
   });
 
@@ -63,7 +68,6 @@ const Index = () => {
     setSelectedTemplate(template);
     setMessages([]);
 
-    // Create a new conversation in Supabase
     const user = (await supabase.auth.getUser()).data.user;
     if (user) {
       const { error } = await supabase

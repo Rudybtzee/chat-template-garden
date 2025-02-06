@@ -39,22 +39,14 @@ export interface Template {
   name: string;
   description: string;
   category: string;
-  systemPrompt: string;
-  exampleMessages: Message[];
-  logoUrl?: string;
+  system_prompt: string;
+  example_messages?: Message[];
   features?: string[];
-  companyInfo?: CompanyInfo;
+  company_info?: CompanyInfo;
   style?: {
     primaryColor?: string;
     gradient?: string;
     darkMode?: boolean;
-  };
-  industry?: string;
-  aiModel?: "gemini" | "deepseek" | "huggingface";
-  responseStyle?: {
-    maxLength?: number;
-    tone?: string;
-    format?: string;
   };
   created_at?: string;
   updated_at?: string;

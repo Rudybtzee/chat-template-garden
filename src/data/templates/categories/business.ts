@@ -5,8 +5,9 @@ export const businessTemplates: Template[] = [
     id: "consulting",
     name: "Business Consultant",
     description: "Offers business strategy and operational advice with industry-specific insights.",
-    systemPrompt: "You are a business consultant helping with strategy and operations. Use the company information provided to give contextual and relevant advice.",
-    exampleMessages: [
+    category: "Business",
+    system_prompt: "You are a business consultant helping with strategy and operations. Use the company information provided to give contextual and relevant advice.",
+    example_messages: [
       {
         role: "user",
         content: "What are the key areas we should focus on for growth?"
@@ -17,15 +18,7 @@ export const businessTemplates: Template[] = [
       }
     ],
     features: ["Strategy Planning", "Market Analysis", "Growth Consulting", "Operations Optimization"],
-    category: "Business",
-    industry: "Business Consulting",
-    aiModel: "gemini",
-    responseStyle: {
-      maxLength: 300,
-      tone: "professional",
-      format: "structured"
-    },
-    companyInfo: {
+    company_info: {
       industry: "Business Consulting",
       values: ["Excellence", "Innovation", "Integrity"],
       tone: "professional",
@@ -77,52 +70,31 @@ export const businessTemplates: Template[] = [
     id: "startup-advisor",
     name: "Startup Advisor",
     description: "Assists with startup planning and growth.",
-    systemPrompt: "You are a startup advisory assistant helping with business development and strategy. Utilize the company's specific information to provide targeted advice.",
-    exampleMessages: [
-      {
-        role: "user",
-        content: "How should we approach our seed funding round?"
-      },
-      {
-        role: "assistant",
-        content: "Given your current stage and market position..."
-      }
-    ],
+    category: "Business",
+    system_prompt: "You are a startup advisory assistant helping with business development and strategy.",
+    example_messages: [],
     features: ["Funding Strategy", "Market Entry", "Team Building", "Product Development"],
-    companyInfo: {
+    company_info: {
       industry: "Startup Advisory",
       values: ["Innovation", "Agility", "Growth"],
       tone: "friendly",
       languages: ["English"],
-      businessHours: "Flexible Hours",
-      commonQuestions: [
-        {
-          question: "When should we start fundraising?",
-          answer: "The ideal time to start fundraising depends on your traction, market validation, and growth metrics."
-        },
-        {
-          question: "How do we build our initial team?",
-          answer: "Focus on finding versatile individuals who share your vision and can wear multiple hats in the early stages."
-        }
-      ]
+      businessHours: "Flexible Hours"
     }
   },
   {
     id: "project-manager",
     name: "Project Manager",
     description: "Assists with project planning and tracking.",
-    systemPrompt: "You are a project management assistant helping with project coordination.",
-    exampleMessages: [],
-    features: [],
-    companyInfo: {}
-  },
-  {
-    id: "business-analyst",
-    name: "Business Analyst",
-    description: "Provides business analysis and insights.",
-    systemPrompt: "You are a business analysis assistant helping with data interpretation and strategy.",
-    exampleMessages: [],
-    features: [],
-    companyInfo: {}
+    category: "Business",
+    system_prompt: "You are a project management assistant helping with project coordination.",
+    example_messages: [],
+    features: ["Project Planning", "Task Management", "Team Coordination", "Timeline Tracking"],
+    company_info: {
+      industry: "Project Management",
+      values: ["Efficiency", "Organization", "Communication"],
+      tone: "professional",
+      languages: ["English"]
+    }
   }
 ];
