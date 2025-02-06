@@ -4,7 +4,7 @@ export const businessTemplates: Template[] = [
   {
     id: "consulting",
     name: "Business Consultant",
-    description: "Offers business strategy and operational advice.",
+    description: "Offers business strategy and operational advice with industry-specific insights.",
     systemPrompt: "You are a business consultant helping with strategy and operations. Use the company information provided to give contextual and relevant advice.",
     exampleMessages: [
       {
@@ -17,12 +17,30 @@ export const businessTemplates: Template[] = [
       }
     ],
     features: ["Strategy Planning", "Market Analysis", "Growth Consulting", "Operations Optimization"],
+    category: "Business",
+    industry: "Business Consulting",
+    aiModel: "gemini",
+    responseStyle: {
+      maxLength: 300,
+      tone: "professional",
+      format: "structured"
+    },
     companyInfo: {
       industry: "Business Consulting",
       values: ["Excellence", "Innovation", "Integrity"],
       tone: "professional",
-      languages: ["English", "Spanish"],
+      languages: ["English", "Spanish", "French"],
       businessHours: "9:00 AM - 6:00 PM EST",
+      targetAudience: "Small to medium-sized businesses",
+      location: {
+        country: "United States",
+        timezone: "EST",
+        operatingRegions: ["North America", "Europe"]
+      },
+      brandGuidelines: {
+        voiceTone: "Professional and authoritative",
+        keywords: ["strategy", "growth", "optimization", "efficiency"]
+      },
       commonQuestions: [
         {
           question: "What services do you offer?",
@@ -31,7 +49,27 @@ export const businessTemplates: Template[] = [
         {
           question: "How do you charge for services?",
           answer: "Our pricing is customized based on project scope and requirements. We offer both hourly consulting and project-based pricing."
+        },
+        {
+          question: "What industries do you specialize in?",
+          answer: "We specialize in technology, healthcare, retail, and manufacturing sectors, with certified consultants in each field."
         }
+      ],
+      socialMedia: [
+        {
+          platform: "LinkedIn",
+          url: "https://linkedin.com/company/business-consulting"
+        },
+        {
+          platform: "Twitter",
+          url: "https://twitter.com/business-consulting"
+        }
+      ],
+      uniqueSellingPoints: [
+        "20+ years of industry experience",
+        "Certified consultants in multiple fields",
+        "Data-driven approach",
+        "Customized solutions"
       ]
     }
   },

@@ -13,6 +13,22 @@ export interface CompanyInfo {
   keyProducts?: string[];
   targetAudience?: string;
   commonQuestions?: { question: string; answer: string }[];
+  socialMedia?: {
+    platform: string;
+    url: string;
+  }[];
+  location?: {
+    country: string;
+    timezone: string;
+    operatingRegions?: string[];
+  };
+  brandGuidelines?: {
+    colors?: string[];
+    voiceTone?: string;
+    keywords?: string[];
+  };
+  competitors?: string[];
+  uniqueSellingPoints?: string[];
 }
 
 export interface Template {
@@ -28,5 +44,13 @@ export interface Template {
     primaryColor?: string;
     gradient?: string;
     darkMode?: boolean;
+  };
+  category?: string;
+  industry?: string;
+  aiModel?: "gemini" | "deepseek" | "huggingface";
+  responseStyle?: {
+    maxLength?: number;
+    tone?: string;
+    format?: string;
   };
 }
