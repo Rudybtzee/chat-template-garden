@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -11,15 +11,51 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isRecovery, setIsRecovery] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Handle redirect from magic link or password recovery
+    const handleAuthRedirect = async () => {
+      const hash = window.location.hash;
+      if (hash && hash.includes('access_token')) {
+        try {
+          const { data, error } = await supabase.auth.getSession();
+          if (error) throw error;
+          if (data?.session) {
+            navigate("/templates");
+          }
+        } catch (error: any) {
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive",
+          });
+        }
+      }
+    };
+
+    handleAuthRedirect();
+  }, [navigate, toast]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      if (isSignUp) {
+      if (isRecovery) {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/auth`,
+        });
+        if (error) throw error;
+
+        toast({
+          title: "Success!",
+          description: "Check your email for password reset instructions.",
+        });
+        setIsRecovery(false);
+      } else if (isSignUp) {
         const { error } = await supabase.auth.signUp({
           email,
           password,
@@ -60,12 +96,18 @@ const Auth = () => {
       <div className="max-w-md mx-auto px-4">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">
-            {isSignUp ? "Create an Account" : "Welcome Back"}
+            {isRecovery 
+              ? "Reset Password"
+              : isSignUp 
+                ? "Create an Account" 
+                : "Welcome Back"}
           </h1>
           <p className="text-muted-foreground">
-            {isSignUp
-              ? "Sign up to start using our AI chatbot templates"
-              : "Sign in to your account to continue"}
+            {isRecovery
+              ? "Enter your email to receive reset instructions"
+              : isSignUp
+                ? "Sign up to start using our AI chatbot templates"
+                : "Sign in to your account to continue"}
           </p>
         </div>
 
@@ -84,19 +126,21 @@ const Auth = () => {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-              <Input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="pl-10"
-                required
-              />
+          {!isRecovery && (
+            <div className="space-y-2">
+              <div className="relative">
+                <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="pl-10"
+                  required
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           <Button
             type="submit"
@@ -105,20 +149,35 @@ const Auth = () => {
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
+            ) : isRecovery ? (
+              "Send Reset Instructions"
+            ) : isSignUp ? (
+              "Sign Up"
             ) : (
-              isSignUp ? "Sign Up" : "Sign In"
+              "Sign In"
             )}
           </Button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center space-y-2">
+          {!isRecovery && (
+            <button
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-sm text-primary-purple hover:underline"
+            >
+              {isSignUp
+                ? "Already have an account? Sign in"
+                : "Don't have an account? Sign up"}
+            </button>
+          )}
+          
           <button
-            onClick={() => setIsSignUp(!isSignUp)}
-            className="text-sm text-primary-purple hover:underline"
+            onClick={() => setIsRecovery(!isRecovery)}
+            className="block w-full text-sm text-primary-purple hover:underline"
           >
-            {isSignUp
-              ? "Already have an account? Sign in"
-              : "Don't have an account? Sign up"}
+            {isRecovery
+              ? "Back to sign in"
+              : "Forgot your password?"}
           </button>
         </div>
       </div>

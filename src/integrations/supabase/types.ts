@@ -205,6 +205,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -257,6 +278,13 @@ export type Database = {
           "": unknown[]
         }
         Returns: number
+      }
+      has_role: {
+        Args: {
+          user_id: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: boolean
       }
       hnsw_bit_support: {
         Args: {
@@ -411,6 +439,7 @@ export type Database = {
       }
     }
     Enums: {
+      app_role: "admin" | "moderator" | "user"
       continents:
         | "Africa"
         | "Antarctica"
