@@ -38,9 +38,9 @@ export const useTemplates = () => {
           description: template.description,
           category: template.category,
           system_prompt: template.system_prompt,
-          example_messages: template.example_messages ? JSON.parse(JSON.stringify(template.example_messages)) as Message[] : [],
-          company_info: template.company_info ? JSON.parse(JSON.stringify(template.company_info)) : {},
-          style: template.style ? JSON.parse(JSON.stringify(template.style)) : {
+          example_messages: template.example_messages as Message[],
+          company_info: template.company_info || {},
+          style: template.style || {
             primaryColor: "#2563eb",
             gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
             darkMode: false
@@ -74,13 +74,13 @@ export const useTemplates = () => {
         category: templateData.category,
         description: templateData.description,
         system_prompt: templateData.system_prompt,
-        company_info: JSON.stringify(templateData.company_info || {}),
-        style: JSON.stringify(templateData.style || {
+        company_info: templateData.company_info || {},
+        style: templateData.style || {
           primaryColor: "#2563eb",
           gradient: "bg-gradient-to-br from-blue-500 to-blue-600",
           darkMode: false
-        }),
-        example_messages: JSON.stringify(templateData.example_messages || []),
+        },
+        example_messages: templateData.example_messages || [],
         features: templateData.features || []
       };
 

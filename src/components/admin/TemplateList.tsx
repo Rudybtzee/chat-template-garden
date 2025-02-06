@@ -12,7 +12,7 @@ interface TemplateListProps {
 }
 
 const TemplateList = ({ templates, onEdit, onDelete }: TemplateListProps) => {
-  if (!templates.length) {
+  if (!templates || templates.length === 0) {
     return null;
   }
 
