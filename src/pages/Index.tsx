@@ -47,9 +47,9 @@ const Index = () => {
       return data.map(template => ({
         ...template,
         example_messages: Array.isArray(template.example_messages) 
-          ? template.example_messages.map(msg => ({
-              role: msg.role || "assistant",
-              content: msg.content || ""
+          ? (template.example_messages as Array<{ role: string; content: string }>).map(msg => ({
+              role: msg.role as "user" | "assistant",
+              content: msg.content
             }))
           : [],
         company_info: template.company_info || {},
@@ -101,7 +101,6 @@ const Index = () => {
         return;
       }
 
-      // Add initial system message if template has example messages
       if (template.example_messages && template.example_messages.length > 0) {
         setMessages(template.example_messages);
       }
