@@ -33,7 +33,6 @@ export interface CompanyInfo {
   competitors?: string[];
   uniqueSellingPoints?: string[];
   logoUrl?: string;
-  industry?: string;
 }
 
 export interface Template {
@@ -52,15 +51,4 @@ export interface Template {
   };
   created_at?: string;
   updated_at?: string;
-}
-
-export interface Conversation {
-  id: string;
-  user_id: string;
-  template_id: string;
-  title: string;
-  created_at: string;
-  updated_at: string;
-  messages?: Message[];
-  template?: Template;
 }
