@@ -2,6 +2,7 @@ import { Template } from "@/types/chat";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
+import { Clock, Globe, MessageSquare } from "lucide-react";
 
 interface TemplateCardProps {
   template: Template;
@@ -31,18 +32,44 @@ export const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
           <CardTitle className="text-lg font-medium">{template.name}</CardTitle>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
         <p className="text-sm text-muted-foreground">{template.description}</p>
+        
         {template.features && (
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2">
             {template.features.map((feature, index) => (
               <span
                 key={index}
-                className="text-xs px-2 py-1 rounded-full bg-primary-purple/10 text-primary-purple"
+                className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary"
               >
                 {feature}
               </span>
             ))}
+          </div>
+        )}
+
+        {template.companyInfo && (
+          <div className="space-y-2 pt-2 border-t">
+            {template.companyInfo.languages && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Globe className="w-4 h-4" />
+                <span>{template.companyInfo.languages.join(", ")}</span>
+              </div>
+            )}
+            
+            {template.companyInfo.businessHours && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Clock className="w-4 h-4" />
+                <span>{template.companyInfo.businessHours}</span>
+              </div>
+            )}
+
+            {template.companyInfo.commonQuestions && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <MessageSquare className="w-4 h-4" />
+                <span>{template.companyInfo.commonQuestions.length} Common Questions</span>
+              </div>
+            )}
           </div>
         )}
       </CardContent>
