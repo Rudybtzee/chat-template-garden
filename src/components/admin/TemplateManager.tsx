@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Template } from "@/types/chat";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, FilePlus } from "lucide-react";
 import TemplateList from "@/components/admin/TemplateList";
 import TemplateDialog from "@/components/admin/TemplateDialog";
 import { useTemplates } from "./hooks/useTemplates";
@@ -40,8 +40,14 @@ export const TemplateManager = () => {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         ) : templates.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
-            No templates found. Click the "New Template" button to create one.
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <FilePlus className="h-12 w-12 text-muted-foreground mb-4" />
+            <p className="text-lg font-medium text-muted-foreground mb-2">No templates found</p>
+            <p className="text-sm text-muted-foreground mb-4">Get started by creating your first template</p>
+            <Button onClick={() => setDialogOpen(true)}>
+              <Plus className="mr-2 h-4 w-4" />
+              Create New Template
+            </Button>
           </div>
         ) : (
           <TemplateList
