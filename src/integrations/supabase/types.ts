@@ -124,13 +124,17 @@ export type Database = {
           business_hours: string | null
           common_questions: Json | null
           created_at: string
+          css_styles: Json | null
+          dashboard_settings: Json | null
           id: string
           industry: string | null
           languages: string[] | null
           location: Json | null
+          logo_url: string | null
           name: string
           social_media: Json | null
           target_audience: string | null
+          theme_settings: Json | null
           tone: string | null
           updated_at: string
           user_id: string
@@ -141,13 +145,17 @@ export type Database = {
           business_hours?: string | null
           common_questions?: Json | null
           created_at?: string
+          css_styles?: Json | null
+          dashboard_settings?: Json | null
           id?: string
           industry?: string | null
           languages?: string[] | null
           location?: Json | null
+          logo_url?: string | null
           name: string
           social_media?: Json | null
           target_audience?: string | null
+          theme_settings?: Json | null
           tone?: string | null
           updated_at?: string
           user_id: string
@@ -158,13 +166,17 @@ export type Database = {
           business_hours?: string | null
           common_questions?: Json | null
           created_at?: string
+          css_styles?: Json | null
+          dashboard_settings?: Json | null
           id?: string
           industry?: string | null
           languages?: string[] | null
           location?: Json | null
+          logo_url?: string | null
           name?: string
           social_media?: Json | null
           target_audience?: string | null
+          theme_settings?: Json | null
           tone?: string | null
           updated_at?: string
           user_id?: string

@@ -4,6 +4,9 @@ import { DashboardStats } from "@/types/admin";
 import { TemplateManager } from "@/components/admin/TemplateManager";
 import StatsGrid from "@/components/admin/StatsGrid";
 import { useToast } from "@/hooks/use-toast";
+import { SettingsDialog } from "@/components/SettingsDialog";
+import { Button } from "@/components/ui/button";
+import { Settings } from "lucide-react";
 
 const Admin = () => {
   const { toast } = useToast();
@@ -14,6 +17,7 @@ const Admin = () => {
     totalTemplates: 0
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     fetchStats();
@@ -48,12 +52,24 @@ const Admin = () => {
     <div className="container mx-auto py-10 space-y-8">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <Button 
+          variant="outline" 
+          size="icon"
+          onClick={() => setSettingsOpen(true)}
+        >
+          <Settings className="h-5 w-5" />
+        </Button>
       </div>
 
       <div className="grid gap-6">
         <StatsGrid stats={stats} isLoading={isLoading} />
         <TemplateManager />
       </div>
+
+      <SettingsDialog 
+        open={settingsOpen} 
+        onOpenChange={setSettingsOpen} 
+      />
     </div>
   );
 };
