@@ -39,6 +39,10 @@ export const TemplateManager = () => {
           <div className="flex items-center justify-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
+        ) : templates.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground">
+            No templates found. Click the "New Template" button to create one.
+          </div>
         ) : (
           <TemplateList
             templates={templates}

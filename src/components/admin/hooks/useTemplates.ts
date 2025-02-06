@@ -21,7 +21,15 @@ export const useTemplates = () => {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching templates:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load templates. Please try again.",
+          variant: "destructive"
+        });
+        return;
+      }
 
       if (data) {
         const formattedTemplates: Template[] = data.map(template => ({

@@ -12,6 +12,10 @@ interface TemplateListProps {
 }
 
 const TemplateList = ({ templates, onEdit, onDelete }: TemplateListProps) => {
+  if (!templates.length) {
+    return null;
+  }
+
   return (
     <div className="space-y-4">
       {templates.map((template) => (
