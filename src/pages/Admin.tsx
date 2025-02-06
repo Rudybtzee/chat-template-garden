@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, MessageSquare, FileText, Activity, Plus } from "lucide-react";
+import { Users, MessageSquare, FileText, Activity, Plus, Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { templateCategories } from "@/data/templates";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 interface DashboardStats {
   totalUsers: number;
@@ -29,6 +30,8 @@ const Admin = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [newTemplate, setNewTemplate] = useState<Partial<Template>>({
     name: "",
     description: "",
@@ -73,6 +76,16 @@ const Admin = () => {
           totalMessages: messagesCount || 0,
           totalTemplates: templatesCount || 0,
         });
+        
+        // Fetch templates
+        const { data: templatesData, error: templatesError } = await supabase
+          .from('chat_templates')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (templatesError) throw templatesError;
+        setTemplates(templatesData);
+
       } catch (error: any) {
         toast({
           title: "Error fetching admin stats",
@@ -108,6 +121,14 @@ const Admin = () => {
         description: "Template created successfully",
       });
 
+      // Refresh templates
+      const { data } = await supabase
+        .from('chat_templates')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (data) setTemplates(data);
+
       // Reset form
       setNewTemplate({
         name: "",
@@ -126,9 +147,73 @@ const Admin = () => {
     }
   };
 
+  const handleUpdateTemplate = async () => {
+    if (!selectedTemplate?.id) return;
+    
+    try {
+      const { error } = await supabase
+        .from('chat_templates')
+        .update({
+          name: selectedTemplate.name,
+          description: selectedTemplate.description,
+          category: selectedTemplate.category,
+          system_prompt: selectedTemplate.system_prompt,
+        })
+        .eq('id', selectedTemplate.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Template updated successfully",
+      });
+
+      // Refresh templates
+      const { data } = await supabase
+        .from('chat_templates')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (data) setTemplates(data);
+      setSelectedTemplate(null);
+    } catch (error: any) {
+      toast({
+        title: "Error updating template",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteTemplate = async (templateId: string) => {
+    try {
+      const { error } = await supabase
+        .from('chat_templates')
+        .delete()
+        .eq('id', templateId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Template deleted successfully",
+      });
+
+      // Update local state
+      setTemplates(templates.filter(t => t.id !== templateId));
+    } catch (error: any) {
+      toast({
+        title: "Error deleting template",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col gap-6">
+        {/* Stats Section */}
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
           <div className="text-sm text-muted-foreground">
@@ -265,9 +350,101 @@ const Admin = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Create and manage chat templates from here. Templates will be available to all users.
-            </p>
+            <div className="space-y-4">
+              {templates.map((template) => (
+                <Card key={template.id} className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold">{template.name}</h3>
+                      <p className="text-sm text-muted-foreground">{template.category}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="icon" onClick={() => setSelectedTemplate(template)}>
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Edit Template</DialogTitle>
+                          </DialogHeader>
+                          <div className="grid gap-4 py-4">
+                            <div className="grid gap-2">
+                              <Label htmlFor="edit-name">Name</Label>
+                              <Input
+                                id="edit-name"
+                                value={selectedTemplate?.name}
+                                onChange={(e) => setSelectedTemplate(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                              />
+                            </div>
+                            <div className="grid gap-2">
+                              <Label htmlFor="edit-category">Category</Label>
+                              <Select
+                                value={selectedTemplate?.category}
+                                onValueChange={(value) => setSelectedTemplate(prev => prev ? ({ ...prev, category: value }) : null)}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {Object.keys(templateCategories).map((category) => (
+                                    <SelectItem key={category} value={category}>
+                                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="grid gap-2">
+                              <Label htmlFor="edit-description">Description</Label>
+                              <Textarea
+                                id="edit-description"
+                                value={selectedTemplate?.description}
+                                onChange={(e) => setSelectedTemplate(prev => prev ? ({ ...prev, description: e.target.value }) : null)}
+                              />
+                            </div>
+                            <div className="grid gap-2">
+                              <Label htmlFor="edit-system-prompt">System Prompt</Label>
+                              <Textarea
+                                id="edit-system-prompt"
+                                value={selectedTemplate?.system_prompt}
+                                onChange={(e) => setSelectedTemplate(prev => prev ? ({ ...prev, system_prompt: e.target.value }) : null)}
+                              />
+                            </div>
+                          </div>
+                          <Button onClick={handleUpdateTemplate} className="w-full">
+                            Update Template
+                          </Button>
+                        </DialogContent>
+                      </Dialog>
+                      
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" size="icon">
+                            <Trash className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Template</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete this template? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleDeleteTemplate(template.id)}>
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
@@ -284,7 +461,7 @@ const Admin = () => {
         </Card>
       </div>
     </div>
-  </>;
+  );
 };
 
 export default Admin;
